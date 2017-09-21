@@ -8,6 +8,6 @@
 3. 以 Pull-Request 的方式將代碼提交。
 
 ## 進階要求
-1. 使用 Vux。
+1. 使用 [Vuex](https://github.com/vuejs/vuex)。
 2. 增加表單校驗。
 
