@@ -1,0 +1,2 @@
+export const BUILD_BOOKS_LIST = 'BUILD_BOOKS_LIST'
+export const SWITCH_LOADING = 'SWITCH_LOADING'
