@@ -1,1 +1,2 @@
-export const isEdit = state => state.isEdit
+export const BookList = state => state.BookList
+export const BookInfo = state => state.BookInfo

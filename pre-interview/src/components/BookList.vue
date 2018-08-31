@@ -1,12 +1,15 @@
 <template>
   <section class="book-list">
+    <header class="header">
+      <router-link class="btn-new" to="/create">NEW</router-link>
+    </header>
     <ul>
-      <li v-for="(book, index) in TheList" :key="book.title + '_' + index">
-        <router-link to="/info/1">
+      <li v-for="(book, index) in BookList" :key="book.title + '_' + index">
+        <router-link :to="book['@id']">
           <h3>{{book.title}}</h3>
           <p>{{book.description}}</p>
           <div class="detail">
-            <span>by {{book.author}}</span><span>{{book.publicationDate}}</span>
+            <span>by {{book.author}}</span> <span>{{book.publicationDate}}</span>
           </div>
         </router-link>
       </li>
@@ -16,116 +19,63 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'BookList',
   data () {
     return {
-      TheList: [
-        // {
-        //   "isbn": "string",
-        //   "title": "string",
-        //   "description": "string",
-        //   "author": "string",
-        //   "publicationDate": "2018-08-30T08:57:55.905Z",
-        //   "reviews": [
-        //     {
-        //       "body": "string"
-        //     }
-        //   ]
-        // }
-        {
-          "isbn": "string",
-          "title": "X",
-          "description": "A long but vert interesting stroy about REST and asyncio.",
-          "author": "The life!",
-          "publicationDate": "2018-08-30T08:57:55.905Z",
-          "reviews": [
-            {
-              "body": "string"
-            }
-          ]
-        },
-        {
-          "isbn": "string",
-          "title": "X",
-          "description": "A long but vert interesting stroy about REST and asyncio.",
-          "author": "The life!",
-          "publicationDate": "2018-08-30T08:57:55.905Z",
-          "reviews": [
-            {
-              "body": "string"
-            }
-          ]
-        },
-        {
-          "isbn": "string",
-          "title": "X",
-          "description": "A long but vert interesting stroy about REST and asyncio.",
-          "author": "The life!",
-          "publicationDate": "2018-08-30T08:57:55.905Z",
-          "reviews": [
-            {
-              "body": "string"
-            }
-          ]
-        },
-        {
-          "isbn": "string",
-          "title": "X",
-          "description": "A long but vert interesting stroy about REST and asyncio.",
-          "author": "The life!",
-          "publicationDate": "2018-08-30T08:57:55.905Z",
-          "reviews": [
-            {
-              "body": "string"
-            }
-          ]
-        },
-        {
-          "isbn": "string",
-          "title": "X",
-          "description": "A long but vert interesting stroy about REST and asyncio.",
-          "author": "The life!",
-          "publicationDate": "2018-08-30T08:57:55.905Z",
-          "reviews": [
-            {
-              "body": "string"
-            }
-          ]
-        },
-        {
-          "isbn": "string",
-          "title": "X",
-          "description": "A long but vert interesting stroy about REST and asyncio.",
-          "author": "The life!",
-          "publicationDate": "2018-08-30T08:57:55.905Z",
-          "reviews": [
-            {
-              "body": "string"
-            }
-          ]
-        }
-      ]
+
     }
   },
+  computed: {
+    ...mapGetters([
+      'BookList'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'GetBookListApi'
+    ])
+  },
   created () {
-    // const bookUrl = 'https://demo.api-platform.com/books'
-    // axios.get(bookUrl)
-    //   .then((res) => {
-    //     console.log(res)
-    //   })
+    this.GetBookListApi()
+  },
+  updated () {
+    console.log(this.BookList)
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.header{
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #FFC35F;
+}
+.btn-new{
+  position: absolute;
+  top: 0;
+  right: 15px;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #fff;
+  text-decoration: none;
+}
 .book-list{
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   background-color: #F5F5F5;
   ul{
+    width: 100%;
     padding-left: 0;
     display: flex;
     flex-wrap: wrap;
@@ -137,14 +87,25 @@ export default {
       margin-bottom: 16px;
       background-color: #fff;
       padding: 8px;
+      a{
+        color: inherit;
+        text-decoration: none;
+      }
       h3{
+        color: #535353;
         margin-top: 8px;
         margin-bottom: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       p{
-        font-size: 13px;;
+        color: #B3B3B3;
+        font-size: 15px;;
         text-align: left;
         margin-bottom: 8px;
+        max-height: 52px;
+        overflow: hidden;
       }
       &::before{
         content: '';
@@ -163,6 +124,7 @@ export default {
   width: 100%;
   font-style: italic;
   margin-left: -13px;
+  color: #B3B3B3;
   span{
     font-size: 13px;
   }

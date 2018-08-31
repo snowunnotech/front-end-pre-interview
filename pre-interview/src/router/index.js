@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import BookList from '@/components/BookList'
 import BookInfo from '@/components/BookInfo'
-import BookEdit from '@/components/BookEdit'
+import BookNew from '@/components/BookNew'
 
 Vue.use(Router)
 
@@ -14,14 +14,19 @@ export default new Router({
       component: BookList
     },
     {
-      path: '/info/:id',
+      path: '/books/:id',
       name: 'BookInfo',
       component: BookInfo
     },
     {
-      path: '/info/:id/edit',
+      path: '/books/:id/edit',
       name: 'BookEdit',
-      component: BookEdit
-    }    
+      component: BookNew
+    },
+    {
+      path: '/create',
+      name: 'BookCreate',
+      component: BookNew
+    }
   ]
 })

@@ -1,16 +1,14 @@
 <template>
   <div id="app">
-    <BookHead></BookHead>
     <router-view/>
   </div>
 </template>
 
 <script>
-import BookHead from '@/components/BookHead'
+
 export default {
   name: 'App',
   components: {
-    BookHead
   }
 }
 </script>
@@ -31,6 +29,7 @@ export default {
   padding-left: 15px;
   padding-right: 15px;
   height: 100vh;
+  overflow: scroll;
 }
 
 </style>

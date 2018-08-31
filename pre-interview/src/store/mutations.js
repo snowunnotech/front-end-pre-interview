@@ -1,6 +1,6 @@
-export const onEdit = (state) => {
-  state.isEdit = true
+export const getList = (state, list) => {
+  state.BookList = list
 }
-export const endEdit = (state) => {
-  state.isEdit = false
+export const getBookInfo = (state, data) => {
+  state.BookInfo = data
 }

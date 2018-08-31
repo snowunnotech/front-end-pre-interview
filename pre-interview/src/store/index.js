@@ -7,7 +7,8 @@ import * as mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
-  isEdit: false
+  BookList: {},
+  BookInfo: []
 }
 
 const store = new Vuex.Store({
