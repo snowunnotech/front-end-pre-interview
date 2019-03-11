@@ -1,5 +1,7 @@
 # bookshelf
 
+**Live demo**: https://brownsugar.github.io/front-end-pre-interview/
+
 ## Project setup
 ```
 npm install
