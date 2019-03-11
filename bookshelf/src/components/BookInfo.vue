@@ -10,7 +10,7 @@
                :placeholder="field.name"
                v-model="field.value" v-else></textarea>
       </template>
-      <button class="delete" v-if="is.edit()" @click="deleteThis">Delete</button>
+      <button class="delete" v-if="is.edit()" @click.prevent="deleteThis">Delete</button>
     </form>
     <Loading v-if="isLoading" />
     <div class="errors">
