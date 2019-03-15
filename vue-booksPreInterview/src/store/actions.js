@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import axios from 'axios'
 
 const baseURL = 'https://demo.api-platform.com/books'
 export const GetBookListApi = function ({
@@ -50,39 +49,17 @@ export const PUTBookEdit = ({
   commit,
   state
 }, id,axiosData) => {
-  Vue.axios.put(baseURL+'/'+id,axiosData).then(res => {
+  Vue.axios.put(baseURL+'/'+id,{
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Accept',
+      'accept': 'application/ld+json',
+      "Content-Type": "application/ld+json"
+    }, axiosData
+  }).then(res => {
     console.log(baseURL + '/' + id)
     console.log(res)
     alert('edit scuess')
   }).then(res => {})
 }
-
-
-// export const GetBookInfo = function ({
-//   commit, state},id) {
-//   Vue.axios.get('https://demo.api-platform.com/books/'+id, {
-//       headers: {
-//         'Access-Control-Allow-Origin': '*',
-//         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-//         'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Accept',
-//         'accept': 'application/ld+json'
-//       }
-//     }).then(function (response) {
-//       // handle success
-//       let filterInfo = state.BookList.filter((obj) => {
-//         if (obj['@id'] === '/books/' + id) {
-//           return obj
-//         }
-//       })
-//       console.log(filterInfo)
-//       commit('getBookInfo', filterInfo)
-//       // commit('getBookInfo', response.data['hydra:member'])
-//     })
-//     .catch(function (error) {
-//       // handle error
-//       console.log(error);
-//     })
-//     .then(function () {
-//       // always executed
-//     });
-// }

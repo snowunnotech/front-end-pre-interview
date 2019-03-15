@@ -78,7 +78,7 @@ export default {
           this.$router.back()
           break
         case 'BookEdit':
-          this.PUTBookEdit(this.bookID)
+          this.PUTBookEdit(this.bookID,axiosData)
           this.$router.back()
       }
     },
