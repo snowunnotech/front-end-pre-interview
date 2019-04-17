@@ -26,34 +26,34 @@ export default new Vuex.Store({
   },
   mutations: {
     BOOKS(state, payload) {
-      state.books = payload;
+      this.state.books = payload;
     },
     LIMIT(state, payload) {
-      state.limit = payload;
+      this.state.limit = payload;
     },
     COUNT(state, payload) {
-      state.count = payload;
+      this.state.count = payload;
     },
     AUTHOR(state, payload) {
-      state.author = payload;
+      this.state.author = payload;
     },
     PID(state, payload) {
-      state.pid = payload;
+      this.state.pid = payload;
     },
     TEMPDATA(state, payload) {
-      state.tempData = payload;
+      this.state.tempData = payload;
     },
     CID(state, payload) {
-      state.cid = payload;
+      this.state.cid = payload;
     },
     EDIT(state, payload) {
-      state.edit = payload;
+      this.state.edit = payload;
     },
     ISNEW(state, payload) {
-      state.isNew = payload;
+      this.state.isNew = payload;
     },
     ISLOADING(state, payload) {
-      state.isLoading = payload;
+      this.state.isLoading = payload;
     },
   },
   actions: {
