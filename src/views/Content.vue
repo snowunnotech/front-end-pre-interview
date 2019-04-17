@@ -22,36 +22,21 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   data() {
     return {};
   },
   methods: {
-    getSingleData() {
-      this.$store.dispatch('getSingleData');
-    },
-    backData() {
-      this.$store.state.isLoading = true;
-      this.$router.go(-1);
-      setTimeout(() => {
-        this.$store.state.isLoading = false;        
-      }, 600);
-    },
+    ...mapActions(['getSingleData', 'backData']),
   },
   computed: {
-    author() {
-      return this.$store.state.author;
-    },
-    pid() {
-      return this.$store.state.pid;
-    },
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
+    ...mapGetters(['author', 'pid', 'isLoading',]),
   },
   created() {
     this.$store.state.pid = this.$route.params.id;
-    this.getSingleData();
+    this.$store.dispatch('getSingleData');
   },
   watch: {
     'pid': 'getSingleData',

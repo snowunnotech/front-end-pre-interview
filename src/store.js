@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import router from './router';
+import sendID from './sendID';
 
 Vue.use(Vuex);
 
@@ -11,9 +13,9 @@ export default new Vuex.Store({
     limit: [],
     author: {},
     tempData: {
-      isbn: '817525766-0',
+      // 'isbn': '817525766-0',
       title: 'string',
-      description: '',
+      description: 'hwueir',
       author: '',
       publicationDate: '',
     },
@@ -102,13 +104,16 @@ export default new Vuex.Store({
       }, 600);
     },
     updateData(context) {
-      const api = `https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books/${this.state.cid}`;
+      let api = `https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books`;
       let other = 'post';
+      this.state.tempData.title = 'new post';
       if (!this.state.isNew) {
         other = 'put';
+        api = `https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books/${this.state.cid}`;
+        this.state.tempData.title = this.state.edit.title;
       }
       this.state.isLoading = true;
-      axios[other](api, this.state.tempData).then(() => {
+      axios[other](api, this.state.tempData).then((res) => {
         context.dispatch('getSingleData');
         this.state.isLoading = false;
       }).catch((error) => {
@@ -128,6 +133,58 @@ export default new Vuex.Store({
         point.description = this.state.edit.description;
         this.state.isLoading = false;
       });
-    }
+    },
+    editData() {
+      router.push('/edit');
+    },
+    backData() {
+      this.state.isLoading = true;
+      router.push('/');
+      setTimeout(() => {
+        this.state.isLoading = false;        
+      }, 600);
+    },
+    backPage() {
+      router.back(-1);
+      this.state.isLoading = true;
+      setTimeout(() => {
+        this.state.isLoading = false;      
+      }, 600);
+    },
   },
+  getters: {
+    books(state) {
+      return state.books;
+    },
+    limit(state) {
+      return state.limit;
+    },
+    count(state) {
+      return state.count;
+    },
+    isLoading(state) {
+      return state.isLoading;
+    },
+    author(state) {
+      return state.author;
+    },
+    pid(state) {
+      return state.pid;
+    },
+    tempData(state) {
+      return state.tempData;
+    },
+    cid(state) {
+      return state.cid;
+    },
+    edit(state) {
+      return state.edit;
+    },
+    isNew(state) {
+      return state.isNew;
+    },
+  },
+  modules: {
+    sendID,
+  }
 });

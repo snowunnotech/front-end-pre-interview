@@ -21,53 +21,26 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   data() {
-    return {
-      booksId: [],
-    //   isLoading: true,
-    };
+    return {};
   },
   methods: {
-    getData() {
-      this.$store.dispatch('getData');
-    },
-    limitData() {
-      this.$store.dispatch('limitData');
-    },
+    ...mapActions(['getData', 'limitData', 'editData']),
     deletData(id) {
-      const vm = this;
-      const api = `https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/${id}`;
-      this.$http.delete(api).then(() => {
-        vm.getData();
-      });
-    },
-    editData() {
-      this.$router.push('/edit');
+      this.$store.dispatch('deletData', id);
     },
     toData(id) {
-      const api = `https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/${id}`;
-      this.$http.get(api).then(() => {
-        this.$router.push(`/content${id}`);
-      });
+      this.$store.dispatch('toData', id);
     },
   },
   computed: {
-    books() {
-      return this.$store.state.books;
-    },
-    limit() {
-      return this.$store.state.limit;
-    },
-    count() {
-      return this.$store.state.count;
-    },
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
+    ...mapGetters(['books', 'limit', 'count', 'isLoading']),
   },
   created() {
-    this.getData();
+    this.$store.dispatch('getData');
   },
 };
 </script>

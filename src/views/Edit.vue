@@ -3,7 +3,7 @@
         <loading :active.sync="isLoading"></loading>
         <div class="wrap">
             <nav class="Content__P">
-                <div class="back" @click="backData">Back</div>
+                <div class="back" @click="backPage">Back</div>
                 <div class="Content__title" v-if="isNew">Add new book</div>
                 <div class="Content__title" v-else>{{tempData.title}}</div>
                 <div class="edit" @click="updateData">Save</div>
@@ -25,15 +25,14 @@
 </template>
 
 <script>
+import { mapGetters, mapActions} from 'vuex';
+
 export default {
   data() {
-    return {
-      // cid: '',
-      // edit: {},
-      // isNew: false,
-    };
+    return {};
   },
   methods: {
+    ...mapActions(['postSingleData', 'backPage']),
     updateData() {
       this.$validator.validate().then((result) => {
         if (result) {
@@ -43,56 +42,28 @@ export default {
           } else {
             this.$router.push(`/content/books/${this.$store.state.cid}`);
           }
-          console.log(result);
         }
       });
-    },
-    backData() {
-      this.$router.go(-1);
-      this.$store.state.isLoading = true;
-      setTimeout(() => {
-        this.$store.state.isLoading = false;      
-      }, 600);
-    },
-    getSingleData() {
-      this.$store.dispatch('postSingleData');
     },
     getDate() {
       const n = Date.now();
       const d = new Date(n);
       const y = d.getFullYear();
-      const m = d.getMonth() + 1;
-      const dt = d.getDate();
-      const hour = d.getHours();
-      const min = d.getMinutes();
-      const sec = d.getSeconds();
+      const m = (d.getMonth() + 1 < 10 ? '0' : '') + (d.getMonth() + 1);
+      const dt = (d.getDate() < 10 ? '0' : '') + d.getDate();
+      const hour = (d.getHours() < 10 ? '0' : '') + d.getHours();
+      const min = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+      const sec = (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
       const minis = d.getMilliseconds();
       const day = `${y}-${m}-${dt}T${hour}:${min}:${sec}.${minis}Z`;
       return day;
     },
   },
   computed: {
-    tempData() {
-      return this.$store.state.tempData;
-    },
-    cid() {
-      return this.$store.state.cid;
-    },
-    edit() {
-      return this.$store.state.edit;
-    },
-    isNew() {
-      return this.$store.state.isNew;
-    },
-    author() {
-      return this.$store.state.author;
-    },
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
+    ...mapGetters(['tempData', 'cid', 'edit', 'isNew', 'author', 'isLoading']),
   },
   watch: {
-    'this.$store.state.tempData': 'getSingleData',
+    'this.$store.state.tempData': 'postSingleData',
   },
   created() {
     this.$store.state.cid = this.$route.query.to;
@@ -100,7 +71,7 @@ export default {
       this.$store.state.isNew = true;
       this.$store.state.tempData = {};
     } else {
-      this.getSingleData();
+      this.postSingleData();
       this.$store.state.isNew = false;
     }
     this.$store.state.tempData.publicationDate = this.getDate();
