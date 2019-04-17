@@ -1,0 +1,49 @@
+.home__P
+    display: flex
+    justify-content: flex-end
+    & .add
+        cursor: pointer
+
+.content_wrap
+    display: flex
+    padding-top: 20px
+    flex-wrap: wrap
+    background-color: #eee
+    // +iphone
+    //     flex-wrap: wrap
+    & .content
+        +size(calc((100% / 3) - 30px), auto)
+        margin-left: 5px
+        margin-right: 5px
+        margin-bottom: 10px
+        padding: 10px
+        background-color: #fff
+        +iphone
+            +size(calc(100% / 2 - 30px), auto)
+            margin-left: 5px
+            margin-right: 5px
+        & .del
+            text-align: center
+            font-weight: 900
+            font-size: 24px
+            margin-bottom: 10px
+            &:hover
+                transform: scale(1.2)
+                transition-duration: .3s
+        & em
+            font-size: 12px
+            display: flex
+            justify-content: space-between
+            margin-top: 10px
+            font-style: oblique
+
+.load 
+    background-color: $main
+    width: 100%
+    padding: 20px 0px
+    font-size: 20px
+    border: none
+    border-radius: 3px
+    color: #fff
+    margin-top: 10px
+            
