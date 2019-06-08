@@ -1,29 +1,12 @@
 # book_list
 
-## Project setup
-```
-npm install
-```
+## description
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- Use API https://demo.api-platform.com/books with cors-anywhere to prevent CORS
+- Get the book details by clicking the item on home page
+- Create a new book by clicking the button at bottom-right corner on home page
+- Have form validation on create book page
+- Use libraries:
+  - axios: API operating
+  - element-ui: UI framework     
+- No RWD
