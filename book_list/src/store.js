@@ -27,6 +27,6 @@ export default new Vuex.Store({
       .then(response=>{
         commit("setBooks",response.data["hydra:member"])
       })
-    }
+    },
   }
 })
