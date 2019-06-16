@@ -1,0 +1,195 @@
+/* reset CSS */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.container h2 {
+  font-size: 24px;
+}
+.container h3 {
+  font-size: 20px;
+}
+.container h4 {
+  font-size: 18px;
+}
+.container h5 {
+  font-size: 16px;
+}
+
+.nav {
+  width: 100%;
+  color: white;
+}
+.nav > button {
+  background-color: #ffc107;
+  border: 0;
+  vertical-align: middle;
+  color: white;
+}
+.nav > button:hover,
+button:active {
+  color: white;
+}
+
+.btn,
+.btn:hover {
+  color: white;
+  background-color: #ffc107;
+  width: 60%;
+}
+i {
+  font-size: 24px;
+  cursor: pointer;
+}
+.book-container {
+  background-color: #eee;
+}
+.GetBooks a,
+.GetBooks a:hover,
+.GetBooks a:active {
+  color: #777;
+  background-color: #fff;
+  height: 160px;
+  width: 45%;
+  text-decoration: none;
+}
+.book-list {
+  position: relative;
+}
+.book-list .date {
+  position: absolute;
+  width: 30%;
+  bottom: 10px;
+  left: 35%;
+}
+.BookDetail a,
+.EditBook a,
+.NewBook a {
+  text-decoration: none;
+  color: white;
+}
