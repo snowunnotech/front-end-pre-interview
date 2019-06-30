@@ -5,6 +5,7 @@
         <div class="BookCreate_card">
             <div class='title'>新增圖書</div>
             *表示為必填欄位
+            <div class="BookCreate_AlertError"></div>
             <label for="title">標題*</label>
             <input type="text" name="title"  required="required" v-model= "newbook.title">
             <label for="author">作者*</label>
@@ -37,7 +38,8 @@ export default {
     methods:{
         AddBook(){
             if (!this.newbook.title|!this.newbook.author|!this.newbook.publicationDate|!this.newbook.description){
-                alert("有欄位尚未填寫，請確認所有欄位填寫完畢再送出")
+                const AlertBox = document.querySelector('.BookCreate_AlertError')
+                AlertBox.innerHTML=`<div style="padding: 10px">有欄位尚未填寫 <br> 請確認所有欄位填寫完畢再送出 </div>`
                 const check=document.querySelectorAll('input')
                 const checkB=document.querySelector('textarea')
                 for (var i=0;i<check.length;i++){
@@ -68,8 +70,13 @@ export default {
                 `)
                 this.$router.push({path:`/`})
             }).catch(error=>{
-                    alert(error.response.data.detail)
-                    this.$router.push({path:`/`})
+                    if (error.response.data.detail='Internal Server Error'){
+                        alert(error.response.data.detail)
+                        this.$router.push({path:`/`})
+                    }else{
+                    const AlertBox = document.querySelector('.BookCreate_AlertError')
+                    AlertBox.textContent=error.response.data.detail
+                    }
                 } 
             )
         }}
@@ -111,6 +118,12 @@ $DarkMainColor: #255359
     color: #fff
     padding: 0px 10px
     max-width: 100%
+    max-width: 100%
+    .BookCreate_AlertError
+        background-color: #EEA9A9 
+        width: 300px
+        margin: 10px 0px
+        text-align: center
     input,textarea,
         border: 1px solid #d9d9d9
         border-radius: 4px

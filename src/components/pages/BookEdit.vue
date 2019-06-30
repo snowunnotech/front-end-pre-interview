@@ -2,6 +2,7 @@
 <div class="container">
     <div class="BookEdit">
         <div class="BookEdit_card" v-for="book in SpecificBook">
+            <div class="BookEdit_AlertError"></div>
             <input class="BookEdit_title" v-model="book.title">
             <div class="BookEdit_author">
                 Author : <input type="text" v-model="book.author">  
@@ -44,7 +45,8 @@ export default {
     methods:{
         CompleteEdit(){
             if (!this.SpecificBook[0].title|!this.SpecificBook[0].author|!this.SpecificBook[0].publicationDate|!this.SpecificBook[0].description){
-                alert("有欄位尚未填寫，請確認所有欄位填寫完畢再儲存")
+                const AlertBox = document.querySelector('.BookEdit_AlertError')
+                AlertBox.innerHTML=`<div style="padding: 10px">有欄位尚未填寫 <br> 請確認所有欄位填寫完畢再送出 </div>`
                 const check=document.querySelectorAll('input')
                 const checkB=document.querySelector('textarea')
                 for (var i=0;i<check.length;i++){
@@ -77,8 +79,14 @@ export default {
                 `)
                 this.$router.push({path:`/book/${this.$route.params.id}`})
             }).catch(error=>{
-                alert(error.response.data.detail)
+                if (error.response.data.detail='Not found, because of an invalid identifier configuration"'){
+                alert(`${error.response.data.detail}
+此為假資料無法修改`)
                 this.$router.push({path:`/book/${this.$route.params.id}`})
+                }else{
+                const AlertBox = document.querySelector('.BookEdit_AlertError')
+                AlertBox.innerHTML=`<div style="padding: 10px"> ${error.response.data.detail}</div>`
+                }
                 }
             )
         }},
@@ -136,6 +144,10 @@ $DarkMainColor: #255359
             box-shadow: 10px 10px 20px rgba(#000,0.5)
             max-width: 100%
             width: 600px
+            .BookEdit_AlertError
+                background-color: #EEA9A9 
+                width: 100%
+                margin: 10px 0px
             .BookEdit_title
                 width: 100%
                 +TitleSetting
