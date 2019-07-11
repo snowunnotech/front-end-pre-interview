@@ -1,9 +1,10 @@
 <template>
-    <v-form>
+    <v-form v-model="valid">
         <v-container>
             <v-layout row wrap>
                 <v-flex xs12>
                     <v-text-field
+                        v-model="author"
                         label="Solo"
                         placeholder="Author"
                         solo
@@ -20,10 +21,11 @@
                 </v-flex>
                 <v-flex xs12>
                     <v-textarea
+                        v-model="description"
                         solo
                         name=""
                         label=""
-                        value=""
+                        placeholder="Description"
                         flat
                     ></v-textarea>
                 </v-flex>
@@ -34,7 +36,23 @@
 
 <script>
 export default {
-    
+    data() {
+        return {
+            valid: true,
+            author: '',
+            authorRules: [
+                //不能為空
+            ],
+            title: '',
+            titleRules: [
+                // 不能跟其他書名重複
+            ],
+            description: '',
+            descriptionRules: [
+                
+            ] 
+        }
+    }
 }
 </script>
 

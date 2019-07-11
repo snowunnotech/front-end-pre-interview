@@ -7,6 +7,10 @@ import './registerServiceWorker'
 
 Vue.config.productionTip = false
 
+Vue.filter('yyyy-mm-dd', (dateString) => {
+  return dateString.split('T')[0]
+})
+
 new Vue({
   router,
   store,
