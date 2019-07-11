@@ -14,12 +14,12 @@ export default new Router({
       component: List
     },
     {
-      path: '/detail',
+      path: '/detail/:id',
       name: 'detail',
       component: () => import('./views/Detail.vue')
     },
     {
-      path: '/edit',
+      path: '/edit/',
       name: 'edit',
       component: () => import('./views/Edit.vue')
     }

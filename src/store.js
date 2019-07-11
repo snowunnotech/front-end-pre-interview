@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     booksApiDomain: 'https://demo.api-platform.com/books/',
     books: [],
-    booksLoaded: 6
+    booksLoaded: 6,
+    detailId: '',
   },
   getters: {
     loadedBooks(state) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     loadedToEnd(state) {
       return state.books.length <= state.booksLoaded
+    },
+    bookDetail(state) {
+      return state.books.filter(book => book['@id'] === state.detailId)[0]
     }
   },
   mutations: {
@@ -28,6 +32,10 @@ export default new Vuex.Store({
     },
     LOAD_BOOKS(state) {
       if(!this.getters.loadedToEnd) state.booksLoaded += 6
+    },
+    SET_DETAIL_ID(state, payload) {
+      let id = payload.id
+      state.detailId = id
     }
   },
   actions: {

@@ -1,6 +1,6 @@
 <template>
     <v-flex xs6 pa-2>
-        <v-layout class="book-card white" pa-2 row wrap>
+        <v-layout class="book-card white" :data-id="book['@id']" pa-2 row wrap>
             <v-flex class="text-xs-center font-weight-bold headline">X</v-flex>
             <v-flex class="grey--text" pb-1 xs12>
                 <article>{{ book.description | hidden-text(50) }}</article>
@@ -32,6 +32,7 @@ export default {
 .book-card {
     height: 100%;
     font-size: 0.25rem;
+    cursor: pointer;
 }
 </style>
 

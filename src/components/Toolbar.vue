@@ -12,7 +12,7 @@
             </v-btn>
             <v-spacer></v-spacer>
             <v-toolbar-title class="headline">
-                <span>{{ bookTitle }}</span>
+                <span>{{ bookDetail ? bookDetail.title : '' }}</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn flat to="/edit" color="white">
@@ -36,9 +36,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-    props: {
-        bookTitle: String
+    computed: {
+        ...mapGetters(['bookDetail'])
     }
 }
 </script>

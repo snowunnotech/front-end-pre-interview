@@ -1,7 +1,7 @@
 <template>
     <section>
         <v-container>
-            <v-layout row wrap>
+            <v-layout row wrap @click="editBook">
                 <BookCard 
                     v-for="book in loadedBooks"
                     :book="book" 
@@ -40,7 +40,18 @@ export default {
         ...mapGetters(['loadedBooks', 'loadedToEnd'])
     },
     methods: {
-        ...mapMutations(['LOAD_BOOKS']),
+        editBook(e) {
+            let bookCard = e.target.closest('.book-card')
+            if(bookCard) {
+                let id = bookCard.dataset.id
+                this.SET_DETAIL_ID({
+                    id
+                })
+                this.$router.push({ name: 'detail', params: { id } })
+            }
+            
+        },
+        ...mapMutations(['LOAD_BOOKS', 'SET_DETAIL_ID']),
         ...mapActions(['requestBooks'])
     }
 }
