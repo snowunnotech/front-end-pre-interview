@@ -11,7 +11,7 @@
 
         <div class="container">
             <div class="row">
-                <template v-for="book in books.slice(0, amountToShow)">
+                <template v-for="book in books">
                     <div class="col-6 mb-4">
                         <app-book-card
                             :id="book['@id']"
@@ -61,15 +61,17 @@ export default {
             inEditingMode: false,
             modeText: "Edit",
             books: [],
-            amountToShow: 6,
-            loadMoreIncrease: 6,
+            page: 1,
+            maxItems: 0,
+            showedItems: 0,
             hasMoreToLoad: true,
             loading: true
         }
     },
 
     created(){
-        axios.get("/books").then(res => {
+        axios.get(`/books?page=${this.page}`).then(res => {
+            this.maxItems = res.data[`hydra:totalItems`];
             // 刪掉id中的"/books/"字串
             const books = res.data[`hydra:member`].map(book => {
                 let id = book["@id"];
@@ -79,15 +81,6 @@ export default {
                 return book;
             });
 
-            // 按照日期先後排列
-            books.sort((a, b) => {
-                if(moment(a.publicationDate).isBefore(moment(b.publicationDate))){
-                    return 1;
-                } else if(moment(a.publicationDate).isAfter(moment(b.publicationDate))) {
-                    return -1;
-                }
-            })
-
             this.books = books;
             this.loading = false;
         })
@@ -95,7 +88,22 @@ export default {
 
     methods: {
         loadMore(){
-            this.amountToShow += this.loadMoreIncrease;
+            this.loading = true;
+            this.page++;
+            axios.get(`/books?page=${this.page}`).then(res => {
+                this.maxItems = res.data[`hydra:totalItems`];
+                // 刪掉id中的"/books/"字串
+                const books = res.data[`hydra:member`].map(book => {
+                    let id = book["@id"];
+                    const start = id.indexOf("/books/") + "/books/".length;
+                    const end = id.length
+                    book["@id"] = id.substring(start, end);
+                    return book;
+                });
+
+                this.books = this.books.concat(books);
+                this.loading = false;
+            })
         },
 
         gotoCreateBook(){
@@ -118,8 +126,12 @@ export default {
     },
 
     watch: {
-        amountToShow(newValue){
-            if(newValue >= this.books.length) this.hasMoreToLoad = false;
+        books(newValue){
+            this.showedItems = newValue.length;
+        },
+
+        showedItems(newValue){
+            if(newValue >= this.maxItems) this.hasMoreToLoad = false;
         }
     }
 }
