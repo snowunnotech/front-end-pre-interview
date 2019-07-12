@@ -1,7 +1,7 @@
 <template>
     <section>
         <v-container>
-            <v-layout row wrap @click="editBook">
+            <v-layout row wrap @click="detailBook">
                 <BookCard 
                     v-for="book in loadedBooks"
                     :book="book" 
@@ -34,13 +34,16 @@ export default {
         BookCard
     },
     created() {
+        this.SET_DETAIL_ID({
+            id: ''
+        })
         this.requestBooks()
     },
     computed: {
         ...mapGetters(['loadedBooks', 'loadedToEnd'])
     },
     methods: {
-        editBook(e) {
+        detailBook(e) {
             let bookCard = e.target.closest('.book-card')
             if(bookCard) {
                 let id = bookCard.dataset.id

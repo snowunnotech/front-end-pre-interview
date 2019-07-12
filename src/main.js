@@ -11,6 +11,8 @@ Vue.filter('yyyy-mm-dd', (dateString) => {
   return dateString.split('T')[0]
 })
 
+export const bus = new Vue()
+
 new Vue({
   router,
   store,
