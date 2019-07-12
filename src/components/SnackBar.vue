@@ -7,7 +7,6 @@
       :right="x === 'right'"
       :timeout="timeout"
       :vertical="mode === 'vertical'"
-      absolute
     >
       {{ text }}
       <v-btn
@@ -40,9 +39,6 @@ export default {
             this.text = text
             this.snackbar = true
         })
-    },
-    methods: {
-
     }
 }
 </script>
