@@ -83,7 +83,7 @@ export default {
     },
     publicationDate: {
       validate: val => /\d{4}-\d{2}-\d{2}/.test(val),
-      message: key => `invalid ${key}`
+      message: () => 'invalid publication date'
     }
   },
   methods: {
