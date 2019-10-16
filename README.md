@@ -11,3 +11,9 @@
 1. 使用 [Vuex](https://github.com/vuejs/vuex)。
 2. 增加表單校驗。
 
+# 如何 run 起來
+<pre><code>npm i</code></pre>
+<pre><code>npm run svg</code></pre>
+<pre><code>npm run dev</code></pre>
+<p>This is <a href="http://localhost:3000/" title="Title">
+an example</a> inline link.</p>
