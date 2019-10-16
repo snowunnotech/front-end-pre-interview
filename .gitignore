@@ -83,7 +83,7 @@ dist
 # VS Code
 .vscode
 
-# PigRent svg render js
+# coustmer svg render js
 assets/icons/*
 
 # PWS service worker

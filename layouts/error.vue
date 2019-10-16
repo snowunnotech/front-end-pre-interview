@@ -17,7 +17,7 @@ export default {
     layout: 'bottom-navigation',
     components: { NotFoundDynamic, NotFoundRoute, UnCatched },
     head: {
-        title: '錯誤貢面 - PigRent 找個窩'
+        title: '錯誤頁面 - coustmer'
     },
     props: {
         error: {
