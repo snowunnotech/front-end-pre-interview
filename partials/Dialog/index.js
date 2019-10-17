@@ -1,1 +1,1 @@
-export const DialogBase = () => import('./DialogBase.vue');
+export const DialogDeleteBook = () => import('./DialogDeleteBook.vue');

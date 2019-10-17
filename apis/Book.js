@@ -19,22 +19,18 @@ export default class Book {
     }
     // 多筆搜尋
     // @todo 搜尋條件
-    async query({ includes }) {
-        let params = {};
-
-        params = {
-            page: 1
+    async query({ params }) {
+        params = params || {
+            'order[author]': 'desc'
         };
 
-        includes = includes || [];
-
-        if (includes.length > 0) {
-            params = { ...params, includes: includes.join(',') };
-        }
-
+        // console.log('params, params', params.length > 0, params);
         const { data } = await this.$axios.get(BOOKS_URI, { params });
 
-        return data['hydra:member'];
+        return {
+            data: data['hydra:member'],
+            totalItems: data['hydra:totalItems']
+        };
     }
     // 建立書籍
     async create({ params }) {
@@ -68,18 +64,16 @@ export default class Book {
 
         return data;
     }
-    // 刪除出擊
+    // 刪除書籍
     async detach(bookId) {
         /**
          * @todo validate bookId is string
          * @jwt token??
          */
-
         const response = await this.$axios.delete(
             BOOKS_DETACH_URI.replace('{id}', bookId)
         );
         console.log(response);
-        return 2;
-        // return response;
+        return false;
     }
 }

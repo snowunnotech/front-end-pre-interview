@@ -18,7 +18,6 @@
 
 <script>
 import { Scroll } from 'vuetify/lib/directives';
-import dayjs from 'dayjs';
 import { book } from '@/apis';
 import { BookAdapter } from '@/components/Adapters';
 
@@ -34,20 +33,25 @@ export default {
     },
     data: () => ({}),
     computed: {},
-    async asyncData({ $axios, params }) {
+    async asyncData({ $axios, params, store }) {
+        const storeBookInfo = store.getters['books/books'].find(
+            id => `/books/${params.id}`
+        );
+
+        if (storeBookInfo !== undefined) {
+            return { bookInfo: storeBookInfo };
+        }
         const bookInfo = new BookAdapter(
             await book($axios).get({
                 id: params.id
                 // id: '06c7f345-5d7a-4c83-a2a0-f3377b600003'
             })
         );
-        // console.log('detail asyncData', bookInfo);
         return { bookInfo };
     },
     methods: {
         onScroll(o) {
             // this.$nuxt.$emit('MENU_CLOSE');
-            // console.log(o);
         }
     }
 };

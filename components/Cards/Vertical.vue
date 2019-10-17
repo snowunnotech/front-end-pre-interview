@@ -12,7 +12,7 @@
                     v-sheet(elevation="0" height="72")
                         span.clamp3 {{ adapter.description}}
                 v-col.text-truncate(cols="12")
-                    span.caption by THe life! 2019-09-09
+                    span.caption by THe life! {{ adapter.publicationDate | dayjs('YYYY-MM-DD') }}
 </template>
 
 <script>
@@ -42,17 +42,13 @@ export default {
     computed: {
         adapter() {
             return new BookAdapter(this.item);
-        },
-        structureFormat() {
-            return this.$vuetify.breakpoint.mdAndUp
-                ? null
-                : '{room}房 {livingroom}廳 {bathroom}衛 {square}坪 {floors}樓';
         }
     },
     methods: {
         goDelete() {
-            console.log('qwertyhjkjhgfd');
-            this.$emit('delete', this.adapter.id);
+            // console.log('no jwt token');
+            this.$nuxt.$emit('BOOK_REMOVE', this.adapter.id);
+            // this.$emit('delete', this.adapter.id);
         }
     }
 };
