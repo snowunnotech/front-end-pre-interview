@@ -2,10 +2,18 @@ const express = require('express');
 const consola = require('consola');
 const { Nuxt, Builder } = require('nuxt');
 const app = express();
-const host = process.env.HOST || '127.0.0.1';
+// const host = process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 3000;
 
 app.set('port', port);
+// 引用'http'模組
+const http = require('http');
+const server = http.createServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Hello World!\n');
+});
+server.listen(port, () => console.log(`Listening on ${port}`));
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js');
