@@ -31,7 +31,6 @@ export const mutations = {
         state.books = state.books.filter(id => !trashed.includes(id));
     },
     flush(state, { book }) {
-        console.log(book, book['@id']);
         state.books = state.books.map(item => {
             if (item['@id'] === book['@id']) {
                 return book;

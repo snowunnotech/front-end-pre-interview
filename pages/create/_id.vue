@@ -149,10 +149,9 @@ export default {
                 })
             );
             this.$store.dispatch('books/flush', { book: bookInfo.raw });
-            console.log(bookInfo);
-            // this.$router.push({
-            //     path: `/detail/${this.id}`
-            // });
+            this.$router.push({
+                path: `/detail/${this.id}`
+            });
         },
         validator() {
             let formHasErrors = false;
