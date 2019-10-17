@@ -148,9 +148,11 @@ export default {
                     }
                 })
             );
-            this.$router.push({
-                path: `/detail/${this.id}`
-            });
+            this.$store.dispatch('books/flush', { book: bookInfo.raw });
+            console.log(bookInfo);
+            // this.$router.push({
+            //     path: `/detail/${this.id}`
+            // });
         },
         validator() {
             let formHasErrors = false;
@@ -168,12 +170,3 @@ export default {
     }
 };
 </script>
-<style>
-.clamp3 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-}
-</style>

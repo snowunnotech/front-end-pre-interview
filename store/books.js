@@ -30,8 +30,14 @@ export const mutations = {
         const trashed = [bookId];
         state.books = state.books.filter(id => !trashed.includes(id));
     },
-    flush(state, books) {
-        state.books = books || [];
+    flush(state, { book }) {
+        console.log(book, book['@id']);
+        state.books = state.books.map(item => {
+            if (item['@id'] === book['@id']) {
+                return book;
+            }
+            return item;
+        });
     }
 };
 
@@ -48,7 +54,7 @@ export const actions = {
     pagination({ commit }, { data, pagination }) {
         commit('pagination', { data, pagination });
     },
-    find({ commit }, { id }) {
-        commit('find', { id });
+    flush({ commit }, { book }) {
+        commit('flush', { book });
     }
 };

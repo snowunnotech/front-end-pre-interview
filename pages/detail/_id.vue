@@ -35,11 +35,11 @@ export default {
     computed: {},
     async asyncData({ $axios, params, store }) {
         const storeBookInfo = store.getters['books/books'].find(
-            id => `/books/${params.id}`
+            book => book['@id'] === `/books/${params.id}`
         );
 
         if (storeBookInfo !== undefined) {
-            return { bookInfo: storeBookInfo };
+            return { bookInfo: new BookAdapter(storeBookInfo) };
         }
         const bookInfo = new BookAdapter(
             await book($axios).get({
@@ -56,12 +56,3 @@ export default {
     }
 };
 </script>
-<style>
-.clamp3 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-}
-</style>

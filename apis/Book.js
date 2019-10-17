@@ -60,7 +60,7 @@ export default class Book {
             BOOKS_ATTACH_URI.replace('{id}', bookId),
             params
         );
-        console.log('attach');
+        // console.log('attach');
 
         return data;
     }
