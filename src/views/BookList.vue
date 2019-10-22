@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <listedObject></listedObject>
+    <listedObject
+      v-for="books in this.getBooks"
+      :key="books.isbn"
+      :book="books"
+    ></listedObject>
   </div>
 </template>
 
