@@ -20,5 +20,8 @@ export const actions = {
   }
 };
 export const getters = {
-  getBooks: state => state.books
+  getBooks: state => state.books,
+  getBooksByISBN: state => BookId => {
+    return state.books.filter(book => book.isbn == BookId)[0];
+  }
 };

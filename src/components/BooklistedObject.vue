@@ -1,9 +1,14 @@
 <template>
-  <div class="book-card -shadow">
-    <span class="eyebrow">Author: {{ book.author }} </span>
-    <h4 class="title">Name: {{ book.title }}</h4>
-    <p>Description: {{ book.description }}</p>
-  </div>
+  <router-link
+    class="book-link"
+    :to="{ name: 'BookDetail', params: { BookId: book.isbn } }"
+  >
+    <div class="book-card -shadow">
+      <span class="eyebrow">Author: {{ book.author }} </span>
+      <h4 class="title">Name: {{ book.title }}</h4>
+      <p>Description: {{ book.description }}</p>
+    </div>
+  </router-link>
 </template>
 
 <script>
