@@ -1,14 +1,28 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import BookList from "../views/BookList.vue";
+import BookDetail from "../views/BookDetail.vue";
+import BookEdit from "../views/BookEdit.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: Home
+    name: "BookList",
+    component: BookList
+  },
+  {
+    path: "/detail/:BookId",
+    name: "BookDetail",
+    component: BookDetail,
+    props: true
+  },
+  {
+    path: "/edit/:BookId",
+    name: "BookEdit",
+    component: BookEdit,
+    props: true
   }
 ];
 
