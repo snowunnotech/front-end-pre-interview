@@ -9,7 +9,7 @@ export default new Vuex.Store({
   plugins: [
     createPersistedState({
       key: "Persist",
-      paths: [books]
+      paths: ["books"]
     })
   ],
   modules: {

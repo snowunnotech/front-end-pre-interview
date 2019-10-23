@@ -6,7 +6,7 @@ export const state = {
 };
 export const mutations = {
   SET_BOOKS(state, books) {
-    let book = [...state.books, ...books];
+    let book = [...books, ...state.books];
     let uniqBook = _.uniqBy(book, bk => bk.isbn);
     state.books = uniqBook;
   },

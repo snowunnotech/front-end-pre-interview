@@ -18,6 +18,11 @@ for (let rule in rules) {
   // add the rule
   extend(rule, rules[rule]);
 }
+extend("isbn", {
+  validate: function(value) {
+    return /^[\d-]*$/.test(value);
+  }
+});
 configure({ bails: false });
 
 // Register it globally

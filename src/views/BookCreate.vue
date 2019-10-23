@@ -63,7 +63,7 @@
       </validation-provider>
       <validation-provider
         name="isbn"
-        rules="required"
+        rules="required|isbn"
         :bails="false"
         v-slot="{ errors }"
       >
@@ -136,7 +136,9 @@ export default {
         const Id = response.data["@id"].split("/")[2];
         const search = await BooksService.index(Id);
         if (search.status == 200) {
-          this.$store.dispatch("books/setBooks", [search.data]);
+          this.$store
+            .dispatch("books/setBooks", [search.data])
+            .then(this.$router.push("/"));
         }
       }
     }
