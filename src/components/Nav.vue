@@ -1,6 +1,9 @@
 <template>
   <div id="nav" class="nav">
     <div><router-link :to="{ name: 'BookList' }">BookList</router-link></div>
+    <div>
+      <router-link :to="{ name: 'BookCreate' }">Create Book</router-link>
+    </div>
   </div>
 </template>
 
@@ -12,7 +15,7 @@ export default {};
 .nav {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   height: 60px;
   background-color: #ccc;

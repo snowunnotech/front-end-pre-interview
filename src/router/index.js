@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import BookList from "../views/BookList.vue";
 import BookDetail from "../views/BookDetail.vue";
 import BookEdit from "../views/BookEdit.vue";
+import BookCreate from "../views/BookCreate.vue";
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,11 @@ const routes = [
     name: "BookEdit",
     component: BookEdit,
     props: true
+  },
+  {
+    path: "/bookcreate",
+    name: "BookCreate",
+    component: BookCreate
   }
 ];
 
