@@ -8,9 +8,7 @@ export default {
     return Api().post("books", bookinfo);
   },
   index(bookId) {
-    return Api().get("books", {
-      params: bookId
-    });
+    return Api().get(`books/${bookId}`);
   },
   update(bookId, updateInfo) {
     return Api().patch(`books/${bookId}`, {

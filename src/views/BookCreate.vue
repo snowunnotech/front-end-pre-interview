@@ -90,7 +90,7 @@
           <input
             name="date"
             v-model="book.publicationDate"
-            type="string"
+            type="date"
             placeholder="Add book publicationDate"
           />
           <span class="text-danger">{{ errors[0] }}</span>
@@ -131,9 +131,13 @@ export default {
       }
       let books = Object.assign({}, this.book);
       books.publicationDate = new Date(books.publicationDate);
-      console.log(books);
       const response = await BooksService.post(books);
-      console.log(response);
+      if (response.status == 201) {
+        const Id = response.data["@id"].split("/")[2];
+        console.log(Id);
+        const search = await BooksService.index(Id);
+        console.log(search);
+      }
     }
   }
 };
