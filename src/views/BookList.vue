@@ -20,7 +20,6 @@ export default {
   async mounted() {
     try {
       const response = await BooksService.get({ page: "1" });
-      console.log(response);
       if (response.status !== 200) {
         return;
       } else {

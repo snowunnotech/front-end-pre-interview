@@ -134,9 +134,10 @@ export default {
       const response = await BooksService.post(books);
       if (response.status == 201) {
         const Id = response.data["@id"].split("/")[2];
-        console.log(Id);
         const search = await BooksService.index(Id);
-        console.log(search);
+        if (search.status == 200) {
+          this.$store.dispatch("books/setBooks", [search.data]);
+        }
       }
     }
   }
