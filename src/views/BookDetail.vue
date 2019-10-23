@@ -9,15 +9,7 @@
         Edit
       </span>
     </button>
-    <div class="align-self-end w-50 d-flex flex-row align-items-end" v-else>
-      <button
-        class="btn btn-dark rounded-0 flex-fill edit-button"
-        @click.prevent="toggleBookEdit"
-      >
-        <span>
-          Submit Edit
-        </span>
-      </button>
+    <div class="align-self-end w-25 d-flex flex-row align-items-end" v-else>
       <button
         class="btn btn-dark rounded-0 flex-fill ml-3 edit-button"
         @click.prevent="toggleBookEdit"
@@ -31,24 +23,121 @@
       <div class="event-header">
         <span class="eyebrow">Author: {{ Books.author }}</span>
         <h3 class="title my-3">Name: {{ Books.title }}</h3>
-        <h5>Publish Date: {{ ParseUTC() }}</h5>
+
+        <h5 class="mt-3">Book's ISBN</h5>
+        <p>{{ Books.isbn }}</p>
+        <h5>Publish Date: {{ ParseUTC(this.Books.publicationDate) }}</h5>
       </div>
 
       <h5 class="mt-3">Brief Description</h5>
       <p>{{ Books.description }}</p>
-
-      <ul class="list-group mt-5">
-        <h3>Readers Review</h3>
-        <li
-          v-for="(review, index) in Books.reviews"
-          :key="index"
-          class="list-item"
-        >
-          <b>{{ review.body }}</b>
-        </li>
-      </ul>
     </div>
-    <div class="py-5 px-3" v-else>
+    <div v-else>
+      <ValidationObserver
+        ref="observer"
+        tag="form"
+        v-slot="{ invalid }"
+        @submit.prevent="postBook()"
+      >
+        <h1>update this Book</h1>
+        <validation-provider
+          name="author"
+          rules="required"
+          :bails="false"
+          v-slot="{ errors }"
+        >
+          <div class="field">
+            <label for="title">author</label>
+            <input
+              name="author"
+              v-model="EditDefaultData.author"
+              type="text"
+              placeholder="Add book author"
+            />
+            <span class="text-danger">{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
+        <validation-provider
+          name="title"
+          rules="required"
+          :bails="false"
+          v-slot="{ errors }"
+        >
+          <div class="field">
+            <label for="title">Name</label>
+            <input
+              name="title"
+              v-model="EditDefaultData.title"
+              type="text"
+              placeholder="Add an book title"
+            />
+            <span class="text-danger">{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
+
+        <validation-provider
+          name="isbn"
+          rules="required|isbn"
+          :bails="false"
+          v-slot="{ errors }"
+        >
+          <div class="field">
+            <label for="title">ISBN</label>
+            <input
+              name="isbn"
+              v-model.lazy="EditDefaultData.isbn"
+              type="text"
+              placeholder="Add book isbn"
+            />
+            <span class="text-danger">{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
+        <h3>When is your book been written?</h3>
+        <validation-provider
+          name="date"
+          rules="required"
+          :bails="false"
+          v-slot="{ errors }"
+        >
+          <div class="field">
+            <label>Date</label>
+            <input
+              name="date"
+              v-model="EditDefaultData.publicationDate"
+              type="date"
+              placeholder="Add book publicationDate"
+            />
+            <span class="text-danger">{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
+        <validation-provider
+          name="description"
+          rules="required"
+          :bails="false"
+          v-slot="{ errors }"
+        >
+          <div class="field">
+            <label>Description</label>
+            <textarea
+              name="description"
+              v-model="EditDefaultData.description"
+              type="text"
+              placeholder="Add a description"
+            />
+            <span class="text-danger">{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
+        <button
+          class="mt-5 px-4 bg-secondary text-white py-2 border-none login-submit "
+          type="submit"
+          name="button"
+          :class="invalid ? 'bg-secondary' : 'bg-dark'"
+        >
+          Submit
+        </button>
+      </ValidationObserver>
+    </div>
+    <div class="py-5 px-3" v-show="false">
       <div class="event-header">
         <span class="eyebrow"
           ><label for="author">Author:</label>
@@ -78,7 +167,7 @@
         <input
           class="w-50"
           v-model.lazy="EditDefaultData.publicationDate"
-          type="string"
+          type="date"
           name="date"
           placeholder="12/13/2001"
           value
@@ -94,24 +183,6 @@
         placeholder="Book Description"
         value
       />
-
-      <ul class="list-group mt-5">
-        <h3>Readers Review</h3>
-        <li
-          v-for="(review, index) in EditDefaultData.reviews"
-          :key="index"
-          class="list-item"
-        >
-          <textarea
-            name="reviews"
-            v-model="review.body"
-            :id="index"
-            cols="80"
-            rows="3"
-          >
-          </textarea>
-        </li>
-      </ul>
     </div>
   </div>
 </template>
@@ -130,13 +201,15 @@ export default {
     BookId: String
   },
   methods: {
-    ParseUTC() {
-      let prasedUTC = new Date(this.Books.publicationDate);
-      let splitedUTC = String(prasedUTC).split(" ");
-      return `${splitedUTC[3]} ${splitedUTC[1]} ${splitedUTC[2]}`;
+    ParseUTC(unparseDate) {
+      let splitedUTC = String(unparseDate).split("-");
+      return `${splitedUTC[0]}-${splitedUTC[1]}-${splitedUTC[2].split("T")[0]}`;
     },
     EditDefault() {
       this.EditDefaultData = JSON.parse(JSON.stringify(this.Books));
+      this.EditDefaultData.publicationDate = this.ParseUTC(
+        this.EditDefaultData.publicationDate
+      );
     },
     toggleBookEdit() {
       this.BookIsBeingEdited = !this.BookIsBeingEdited;

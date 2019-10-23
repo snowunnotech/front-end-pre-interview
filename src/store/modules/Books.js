@@ -9,6 +9,11 @@ export const mutations = {
     let book = [...books, ...state.books];
     let uniqBook = _.uniqBy(book, bk => bk.isbn);
     state.books = uniqBook;
+    state.books.sort(function(a, b) {
+      a = a.publicationDate;
+      b = b.publicationDate;
+      return a > b ? -1 : a < b ? 1 : 0;
+    });
   },
   ADD_BOOKS(state, books) {
     state.books.push(books);
@@ -20,6 +25,9 @@ export const actions = {
   },
   addBooks({ commit }, payload) {
     commit("ADD_BOOKS", payload);
+  },
+  getGetterIsbn({ getters }, payload) {
+    getters("getBooksByISBN", payload);
   }
 };
 export const getters = {

@@ -20,8 +20,16 @@ for (let rule in rules) {
 }
 extend("isbn", {
   validate: function(value) {
-    return /^[\d-]*$/.test(value);
-  }
+    const test = store.getters["books/getBooksByISBN"];
+    const result = !!test(value);
+    console.log(result);
+    if (result.isbn && result) {
+      return false;
+    } else {
+      return /^[\d-]*$/.test(value);
+    }
+  },
+  messages: "This ISBN has already been use"
 });
 configure({ bails: false });
 

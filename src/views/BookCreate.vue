@@ -71,7 +71,7 @@
           <label for="title">isbn</label>
           <input
             name="isbn"
-            v-model="book.isbn"
+            v-model.lazy="book.isbn"
             type="text"
             placeholder="Add book isbn"
           />
