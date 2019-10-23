@@ -72,7 +72,7 @@
           <input
             name="isbn"
             v-model="book.isbn"
-            type="string"
+            type="text"
             placeholder="Add book isbn"
           />
           <span class="text-danger">{{ errors[0] }}</span>
@@ -96,24 +96,7 @@
           <span class="text-danger">{{ errors[0] }}</span>
         </div>
       </validation-provider>
-      <h3>Review</h3>
-      <validation-provider
-        name="reviews"
-        rules="required"
-        :bails="false"
-        v-slot="{ errors }"
-      >
-        <div class="field">
-          <label>reviews</label>
-          <textarea
-            name="reviews"
-            v-model="book.reviews.body"
-            type="text"
-            placeholder="Add reviews"
-          />
-          <span class="text-danger">{{ errors[0] }}</span>
-        </div>
-      </validation-provider>
+
       <button
         class="w-100 bg-secondary text-white py-2 border-none login-submit "
         type="submit"
@@ -136,15 +119,7 @@ export default {
         title: null,
         description: null,
         author: null,
-        publicationDate: null,
-        reviews: [
-          {
-            body: null,
-            rating: null,
-            author: null,
-            publicationDate: null
-          }
-        ]
+        publicationDate: null
       }
     };
   },
@@ -154,7 +129,10 @@ export default {
       if (!isValid) {
         return;
       }
-      const response = await BooksService.post(this.book);
+      let books = Object.assign({}, this.book);
+      books.publicationDate = new Date(books.publicationDate);
+      console.log(books);
+      const response = await BooksService.post(books);
       console.log(response);
     }
   }

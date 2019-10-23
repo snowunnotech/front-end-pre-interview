@@ -5,21 +5,7 @@ export default {
     return Api().get("books?" + "page=" + query.page);
   },
   post(bookinfo) {
-    return Api().post("books", {
-      isbn: bookinfo.isbn,
-      title: bookinfo.title,
-      description: bookinfo.description,
-      author: bookinfo.author,
-      publicationDate: bookinfo.publicationDate,
-      reviews: [
-        {
-          body: bookinfo.reviews.body,
-          rating: bookinfo.reviews.rating,
-          author: bookinfo.reviews.author,
-          publicationDate: bookinfo.reviews.publicationDate
-        }
-      ]
-    });
+    return Api().post("books", bookinfo);
   },
   index(bookId) {
     return Api().get("books", {
