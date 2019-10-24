@@ -37,9 +37,9 @@
         ref="observer"
         tag="form"
         v-slot="{ invalid }"
-        @submit.prevent="postBook()"
+        @submit.prevent="updateBook()"
       >
-        <h1>update this Book</h1>
+        <h1>Update This Book</h1>
         <validation-provider
           name="author"
           rules="required"
@@ -92,7 +92,6 @@
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </validation-provider>
-        <h3>When is your book been written?</h3>
         <validation-provider
           name="date"
           rules="required"
@@ -189,6 +188,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import BooksService from "@/services/BooksService.js";
 export default {
   data() {
     return {
@@ -214,6 +214,29 @@ export default {
     toggleBookEdit() {
       this.BookIsBeingEdited = !this.BookIsBeingEdited;
       this.EditDefault();
+    },
+    async updateBook() {
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) {
+        return;
+      }
+      const UpdateBook = JSON.parse(JSON.stringify(this.EditDefaultData));
+      UpdateBook.publicationDate = `${UpdateBook.publicationDate}T09:10:53.726Z`;
+      const Id = UpdateBook["@id"].split("/")[2];
+      const response = await BooksService.update(
+        Id,
+        JSON.stringify(UpdateBook)
+      );
+      if (response.status == 200) {
+        const search = await BooksService.index(Id);
+        console.log(search);
+        if (search.status == 200) {
+          this.$store.dispatch("books/setBooks", [search.data]);
+          const getIdBook = this.getBooksByISBN(search.data.isbn);
+          this.Books = getIdBook;
+          this.toggleBookEdit();
+        }
+      }
     }
   },
   computed: {
@@ -246,5 +269,8 @@ export default {
 }
 .edit-button {
   position: sticky;
+}
+.field {
+  margin: 25px 0;
 }
 </style>

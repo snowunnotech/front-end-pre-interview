@@ -11,20 +11,10 @@ export default {
     return Api().get(`books/${bookId}`);
   },
   update(bookId, updateInfo) {
-    return Api().patch(`books/${bookId}`, {
-      isbn: bookId,
-      title: updateInfo.title,
-      description: updateInfo.description,
-      author: updateInfo.author,
-      publicationDate: updateInfo.publicationDate,
-      reviews: [
-        {
-          body: updateInfo.reviews.body,
-          rating: updateInfo.reviews.rating,
-          author: updateInfo.reviews.author,
-          publicationDate: updateInfo.reviews.publicationDate
-        }
-      ]
+    return Api().patch(`books/${bookId}`, updateInfo, {
+      headers: {
+        "Content-Type": "application/merge-patch+json"
+      }
     });
   }
 };
