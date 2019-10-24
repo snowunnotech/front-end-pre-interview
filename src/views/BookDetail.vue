@@ -77,7 +77,7 @@
 
         <validation-provider
           name="isbn"
-          rules="required|isbn"
+          rules="isbn"
           :bails="false"
           v-slot="{ errors }"
         >
@@ -221,18 +221,17 @@ export default {
         return;
       }
       const UpdateBook = JSON.parse(JSON.stringify(this.EditDefaultData));
-      UpdateBook.publicationDate = `${UpdateBook.publicationDate}T09:10:53.726Z`;
+      UpdateBook.publicationDate = `${UpdateBook.publicationDate}T00:00:00.000Z`;
       const Id = UpdateBook["@id"].split("/")[2];
-      const response = await BooksService.update(
-        Id,
-        JSON.stringify(UpdateBook)
-      );
+      const { reviews, ...UpdateBooNoReviews } = UpdateBook;
+      console.log(reviews);
+      const response = await BooksService.update(Id, UpdateBooNoReviews);
       if (response.status == 200) {
         const search = await BooksService.index(Id);
         console.log(search);
         if (search.status == 200) {
           this.$store.dispatch("books/setBooks", [search.data]);
-          const getIdBook = this.getBooksByISBN(search.data.isbn);
+          const getIdBook = this.getBooksByID(search.data["@id"]);
           this.Books = getIdBook;
           this.toggleBookEdit();
         }
@@ -240,10 +239,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("books", ["getBooksByISBN"])
+    ...mapGetters("books", ["getBooksByISBN", "getBooksByID"])
   },
   created() {
-    this.Books = this.getBooksByISBN(this.BookId);
+    this.Books = this.getBooksByID(this.BookId);
   }
 };
 </script>

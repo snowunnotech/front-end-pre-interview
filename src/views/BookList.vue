@@ -2,7 +2,7 @@
   <div class="home">
     <listedObject
       v-for="books in this.getBooks"
-      :key="books.isbn"
+      :key="books['@id']"
       :book="books"
     ></listedObject>
   </div>

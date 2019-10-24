@@ -1,7 +1,7 @@
 <template>
   <router-link
     class="book-link"
-    :to="{ name: 'BookDetail', params: { BookId: book.isbn } }"
+    :to="{ name: 'BookDetail', params: { BookId: book['@id'] } }"
   >
     <div class="book-card -shadow">
       <span class="eyebrow">Author: {{ book.author }} </span>
