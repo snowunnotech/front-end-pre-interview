@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column">
+  <div class="d-flex flex-column theme-background">
     <button
       class="btn btn-dark rounded-0 w-25 align-self-end edit-button"
       @click.prevent="toggleBookEdit"
@@ -22,7 +22,7 @@
     <div class="py-5 px-3" v-if="!BookIsBeingEdited">
       <div class="event-header">
         <span class="eyebrow">Author: {{ Books.author }}</span>
-        <h3 class="title my-3">Name: {{ Books.title }}</h3>
+        <h4 class="title my-3">Book Name: {{ Books.title }}</h4>
 
         <h5 class="mt-3">Book's ISBN</h5>
         <p>{{ Books.isbn }}</p>
@@ -242,7 +242,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.theme-background {
+  background-color: #e3aaaa55;
+}
 .location {
   margin-bottom: 0;
 }

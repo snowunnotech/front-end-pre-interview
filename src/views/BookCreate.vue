@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="theme-background">
     <ValidationObserver
       ref="observer"
       tag="form"
