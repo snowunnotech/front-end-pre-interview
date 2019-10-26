@@ -110,7 +110,6 @@
 </template>
 
 <script>
-import BooksService from "@/services/BooksService.js";
 export default {
   data() {
     return {
@@ -129,18 +128,8 @@ export default {
       if (!isValid) {
         return;
       }
-      let books = Object.assign({}, this.book);
-      books.publicationDate = new Date(books.publicationDate);
-      const response = await BooksService.post(books);
-      if (response.status == 201) {
-        const Id = response.data["@id"].split("/")[2];
-        const search = await BooksService.index(Id);
-        if (search.status == 200) {
-          this.$store
-            .dispatch("books/setBooks", [search.data])
-            .then(this.$router.push("/"));
-        }
-      }
+      await this.$store.dispatch("books/PostBooksApi", this.book);
+      this.$router.push("/");
     }
   }
 };

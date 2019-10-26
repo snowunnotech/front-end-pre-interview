@@ -31,16 +31,44 @@ export const actions = {
   getGetterIsbn({ getters }, payload) {
     getters("getBooksByISBN", payload);
   },
+  async GetBooksApi({ dispatch }) {
+    try {
+      const response = await BooksService.get({ page: "1" });
+      if (response.status !== 200) {
+        return;
+      } else {
+        dispatch("setBooks", response.data["hydra:member"]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async PostBooksApi({ dispatch }, bookCreate) {
+    try {
+      let bookToPost = Object.assign({}, bookCreate);
+      bookToPost.publicationDate = new Date(bookToPost.publicationDate);
+      const response = await BooksService.post(bookToPost);
+      if (response.status == 201) {
+        dispatch("setBooks", [response.data]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
   async PatchBooksApi({ dispatch }, dataToChange) {
-    const UpdateBook = JSON.parse(JSON.stringify(dataToChange));
-    console.log(dataToChange);
-    UpdateBook.publicationDate = `${UpdateBook.publicationDate}T00:00:00.000Z`;
-    const Id = UpdateBook["@id"].split("/")[2];
-    const { reviews, ...UpdateBooNoReviews } = UpdateBook;
-    console.log(reviews);
-    const response = await BooksService.update(Id, UpdateBooNoReviews);
-    if (response.status == 200) {
-      dispatch("setBooks", [response.data]);
+    try {
+      const UpdateBook = JSON.parse(JSON.stringify(dataToChange));
+      console.log(dataToChange);
+      UpdateBook.publicationDate = `${UpdateBook.publicationDate}T00:00:00.000Z`;
+      const Id = UpdateBook["@id"].split("/")[2];
+      const { reviews, ...UpdateBooNoReviews } = UpdateBook;
+      console.log(reviews);
+      const response = await BooksService.update(Id, UpdateBooNoReviews);
+      if (response.status == 200) {
+        dispatch("setBooks", [response.data]);
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 };

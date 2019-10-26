@@ -10,7 +10,6 @@
 
 <script>
 import listedObject from "@/components/BooklistedObject";
-import BooksService from "@/services/BooksService.js";
 import { mapGetters } from "vuex";
 
 export default {
@@ -18,16 +17,7 @@ export default {
     listedObject
   },
   async mounted() {
-    try {
-      const response = await BooksService.get({ page: "1" });
-      if (response.status !== 200) {
-        return;
-      } else {
-        this.$store.dispatch("books/setBooks", response.data["hydra:member"]);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    this.$store.dispatch("books/GetBooksApi");
   },
   computed: {
     ...mapGetters("books", ["getBooks"])
