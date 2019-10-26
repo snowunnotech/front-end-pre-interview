@@ -1,3 +1,5 @@
+import BooksService from "../../services/BooksService";
+
 export const namespaced = true;
 const _ = require("lodash");
 
@@ -28,6 +30,18 @@ export const actions = {
   },
   getGetterIsbn({ getters }, payload) {
     getters("getBooksByISBN", payload);
+  },
+  async PatchBooksApi({ dispatch }, dataToChange) {
+    const UpdateBook = JSON.parse(JSON.stringify(dataToChange));
+    console.log(dataToChange);
+    UpdateBook.publicationDate = `${UpdateBook.publicationDate}T00:00:00.000Z`;
+    const Id = UpdateBook["@id"].split("/")[2];
+    const { reviews, ...UpdateBooNoReviews } = UpdateBook;
+    console.log(reviews);
+    const response = await BooksService.update(Id, UpdateBooNoReviews);
+    if (response.status == 200) {
+      dispatch("setBooks", [response.data]);
+    }
   }
 };
 export const getters = {

@@ -50,7 +50,7 @@
             <label for="title">author</label>
             <input
               name="author"
-              v-model="EditDefaultData.author"
+              v-model="EditForm.author"
               type="text"
               placeholder="Add book author"
             />
@@ -67,7 +67,7 @@
             <label for="title">Name</label>
             <input
               name="title"
-              v-model="EditDefaultData.title"
+              v-model="EditForm.title"
               type="text"
               placeholder="Add an book title"
             />
@@ -85,7 +85,7 @@
             <label for="title">ISBN</label>
             <input
               name="isbn"
-              v-model.lazy="EditDefaultData.isbn"
+              v-model.lazy="EditForm.isbn"
               type="text"
               placeholder="Add book isbn"
             />
@@ -102,7 +102,7 @@
             <label>Date</label>
             <input
               name="date"
-              v-model="EditDefaultData.publicationDate"
+              v-model="EditForm.publicationDate"
               type="date"
               placeholder="Add book publicationDate"
             />
@@ -119,7 +119,7 @@
             <label>Description</label>
             <textarea
               name="description"
-              v-model="EditDefaultData.description"
+              v-model="EditForm.description"
               type="text"
               placeholder="Add a description"
             />
@@ -143,7 +143,7 @@
           <br />
           <input
             class="w-50"
-            v-model.lazy="EditDefaultData.author"
+            v-model.lazy="EditForm.author"
             type="text"
             name="author"
             placeholder="Bryan"
@@ -154,7 +154,7 @@
         </h3>
         <input
           class="w-50"
-          v-model.lazy="EditDefaultData.title"
+          v-model.lazy="EditForm.title"
           type="text"
           name="title"
           placeholder="secret"
@@ -165,7 +165,7 @@
         </h5>
         <input
           class="w-50"
-          v-model.lazy="EditDefaultData.publicationDate"
+          v-model.lazy="EditForm.publicationDate"
           type="date"
           name="date"
           placeholder="12/13/2001"
@@ -176,7 +176,7 @@
       <h5 class="mt-3"><label for="Description">Brief Description:</label></h5>
       <textarea
         class="w-50"
-        v-model.lazy="EditDefaultData.description"
+        v-model.lazy="EditForm.description"
         type="text"
         name="Description"
         placeholder="Book Description"
@@ -188,12 +188,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import BooksService from "@/services/BooksService.js";
 export default {
   data() {
     return {
       Books: null,
-      EditDefaultData: {},
+      EditForm: {},
       BookIsBeingEdited: false
     };
   },
@@ -206,43 +205,39 @@ export default {
       return `${splitedUTC[0]}-${splitedUTC[1]}-${splitedUTC[2].split("T")[0]}`;
     },
     EditDefault() {
-      this.EditDefaultData = JSON.parse(JSON.stringify(this.Books));
-      this.EditDefaultData.publicationDate = this.ParseUTC(
-        this.EditDefaultData.publicationDate
+      this.EditForm = JSON.parse(JSON.stringify(this.Books));
+      this.EditForm.publicationDate = this.ParseUTC(
+        this.EditForm.publicationDate
       );
     },
     toggleBookEdit() {
       this.BookIsBeingEdited = !this.BookIsBeingEdited;
-      this.EditDefault();
+      if (this.BookIsBeingEdited) {
+        this.EditDefault();
+      }
     },
     async updateBook() {
       const isValid = await this.$refs.observer.validate();
       if (!isValid) {
         return;
       }
-      const UpdateBook = JSON.parse(JSON.stringify(this.EditDefaultData));
-      UpdateBook.publicationDate = `${UpdateBook.publicationDate}T00:00:00.000Z`;
-      const Id = UpdateBook["@id"].split("/")[2];
-      const { reviews, ...UpdateBooNoReviews } = UpdateBook;
-      console.log(reviews);
-      const response = await BooksService.update(Id, UpdateBooNoReviews);
-      if (response.status == 200) {
-        const search = await BooksService.index(Id);
-        console.log(search);
-        if (search.status == 200) {
-          this.$store.dispatch("books/setBooks", [search.data]);
-          const getIdBook = this.getBooksByID(search.data["@id"]);
-          this.Books = getIdBook;
-          this.toggleBookEdit();
-        }
-      }
+      await this.$store.dispatch("books/PatchBooksApi", this.EditForm);
+      this.toggleBookEdit();
     }
   },
   computed: {
-    ...mapGetters("books", ["getBooksByISBN", "getBooksByID"])
+    ...mapGetters("books", ["getBooksByISBN", "getBooksByID"]),
+    getBook() {
+      return this.getBooksByID(this.BookId);
+    }
   },
   created() {
-    this.Books = this.getBooksByID(this.BookId);
+    this.Books = this.getBook;
+  },
+  watch: {
+    getBook() {
+      this.Books = this.getBook;
+    }
   }
 };
 </script>
