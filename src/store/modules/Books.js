@@ -4,21 +4,20 @@ export const namespaced = true;
 const _ = require("lodash");
 
 export const state = {
-  books: []
+  books: [],
+  page: "1"
 };
 export const mutations = {
   SET_BOOKS(state, books) {
-    let book = [...books, ...state.books];
+    let book = [...state.books, ...books];
     let uniqBook = _.uniqBy(book, bk => bk.isbn);
     state.books = uniqBook;
-    state.books.sort(function(a, b) {
-      a = a.publicationDate;
-      b = b.publicationDate;
-      return a > b ? -1 : a < b ? 1 : 0;
-    });
   },
   ADD_BOOKS(state, books) {
     state.books.push(books);
+  },
+  INCREMENT_PAGE(state) {
+    state.page++;
   }
 };
 export const actions = {
@@ -28,12 +27,16 @@ export const actions = {
   addBooks({ commit }, payload) {
     commit("ADD_BOOKS", payload);
   },
+  incrementPage({ commit }) {
+    commit("INCREMENT_PAGE");
+  },
   getGetterIsbn({ getters }, payload) {
     getters("getBooksByISBN", payload);
   },
-  async GetBooksApi({ dispatch }) {
+  async GetBooksApi({ dispatch, getters }) {
     try {
-      const response = await BooksService.get({ page: "1" });
+      const response = await BooksService.get({ page: getters["getPage"] });
+      console.log("request is been send");
       if (response.status !== 200) {
         return;
       } else {
@@ -48,7 +51,7 @@ export const actions = {
       let bookToPost = Object.assign({}, bookCreate);
       bookToPost.publicationDate = new Date(bookToPost.publicationDate);
       const response = await BooksService.post(bookToPost);
-      if (response.status == 201) {
+      if (response.status === 201) {
         dispatch("setBooks", [response.data]);
       }
     } catch (err) {
@@ -64,7 +67,7 @@ export const actions = {
       const { reviews, ...UpdateBooNoReviews } = UpdateBook;
       console.log(reviews);
       const response = await BooksService.update(Id, UpdateBooNoReviews);
-      if (response.status == 200) {
+      if (response.status === 200) {
         dispatch("setBooks", [response.data]);
       }
     } catch (err) {
@@ -74,10 +77,11 @@ export const actions = {
 };
 export const getters = {
   getBooks: state => state.books,
+  getPage: state => state.page,
   getBooksByISBN: state => BookIsbn => {
-    return state.books.filter(book => book.isbn == BookIsbn)[0];
+    return state.books.filter(book => book.isbn === BookIsbn)[0];
   },
   getBooksByID: state => BookId => {
-    return state.books.filter(book => book["@id"] == BookId)[0];
+    return state.books.filter(book => book["@id"] === BookId)[0];
   }
 };

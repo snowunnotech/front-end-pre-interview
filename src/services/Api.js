@@ -2,6 +2,9 @@ import axios from "axios";
 
 export default () => {
   return axios.create({
-    baseURL: process.env.VUE_APP_APIBASEURL
+    baseURL: process.env.VUE_APP_APIBASEURL,
+    headers: {
+      accept: "application/ld+json"
+    }
   });
 };

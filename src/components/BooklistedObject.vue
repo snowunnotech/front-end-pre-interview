@@ -22,8 +22,9 @@ export default {
 <style lang="scss" scoped>
 .book-card {
   padding: 20px;
-  margin-bottom: 24px;
   transition: all 0.2s linear;
+  background-color: #e3aaaa55;
+  border-bottom: 1px solid #ccc;
   cursor: pointer;
 }
 .book-card:hover {
@@ -31,7 +32,7 @@ export default {
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2), 0 1px 15px 0 rgba(0, 0, 0, 0.19);
 }
 .book-card > .title {
-  margin: 0;
+  margin: 15px 0;
 }
 .book-link {
   color: black;
