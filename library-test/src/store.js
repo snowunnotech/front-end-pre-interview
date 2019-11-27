@@ -13,21 +13,22 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    booksLists: []
+    bookLists: []
   },  
   mutations: {
     FETCH_LISTSS(state, booksLists) {
-        state.booksLists = booksLists
+        state.bookLists = booksLists
     }
   },
   actions: {
     fetchBookLists({ commit }) {
       return new Promise((resolve, reject) => {
-          fetch('https://demo.api-platform.com/books?properties[]=&page=1', { mode: 'no-cors' })
+          fetch('https://demo.api-platform.com/books?properties[]=&page=1')
             .then((response) => {
-              console.log('success fetch')
-              console.log(response)
-              commit("FETCH_LISTSS", response.body)
+              return response.json()
+            })
+            .then((data) => {
+              commit("FETCH_LISTSS", data["hydra:member"])
               resolve()
             })
             .catch((err) => {

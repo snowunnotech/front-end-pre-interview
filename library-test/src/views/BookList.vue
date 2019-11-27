@@ -16,7 +16,6 @@ export default {
   },
   created() {
     this.$store.dispatch("fetchBookLists").then((res) => {
-      console.log(res)
     })
   },
 }
