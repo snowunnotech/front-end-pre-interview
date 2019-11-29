@@ -9,24 +9,42 @@ export default new Router({
     {
       path: '/',
       name: 'bookList',
-      component: BookList
+      component: BookList,
+      meta: {
+        title: '',
+        navBarTitle: false,
+        navbarText: 'New'
+      }
     },
     {
-      path: '/detail',
+      path: '/detail/:id',
       name: 'bookDetail',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      meta: {
+        title: '',
+        navBarTitle: true,
+        navbarText: 'Edit'
+      },
       component: () => import(/* webpackChunkName: "about" */ './views/BookDetail.vue')
     },
     {
       path: '/create',
       name: 'bookCreate',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      meta: {
+        title: 'Add new book',
+        navBarTitle: false,
+        navbarText: 'Save'
+      },
       component: () => import(/* webpackChunkName: "about" */ './views/BookEdit.vue')
-    }
-
+    },
+    {
+      path: '/edit/:id',
+      name: 'bookEdit',
+      meta: {
+        title: '',
+        navBarTitle: true,
+        navbarText: 'Edit'
+      },
+      component: () => import(/* webpackChunkName: "about" */ './views/BookEdit.vue')
+    }   
   ]
 })

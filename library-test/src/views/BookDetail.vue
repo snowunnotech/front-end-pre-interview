@@ -1,6 +1,6 @@
 <template>
   <div class="book-detail">
-    <h1>Edit {{test}}</h1>
+    <h1>hi detail</h1>
   </div>
 </template>
 
@@ -10,10 +10,14 @@ import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'bookDetail',
-  data() {
-    return {
-      test: 'hi this is test data'
+  computed: {
+    bookDetail() {
+      return this.$store.state.bookDetail
     }
-  }
+  },
+  async created () {
+    console.log(this.$route.params.id)
+    this.$store.dispatch('fetchBookDetail', this.$route.params.id)
+  },
 }
 </script>

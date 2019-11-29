@@ -1,27 +1,41 @@
 <template>
-  <div>
     <div class="card-container-column">
-      <div className="card-media">
+      <div class="card-media">
         <img
-          className="card-img"
-          src="test"
+          class="card-img"
+          src="../assets/bookDefaultA.jpg"
         />
       </div> 
-      <div className="card-content">
-        <div className="card-hint">
-          <span>衝浪．在地體驗．恰你個恰恰恰</span>
+      <div class="card-content">
+        <div class="card-title">
+          <span>{{ title }}</span>
         </div>
-        <div className="card-title">
-          <span>test/span>
+        <div class="card-des">
+          <span>{{ description }}</span>
+        </div>
+        <div class="card-info card-des">
+          <span className="card-des">
+              by {{ author }}
+              <span className="weight-normal text-hint">
+                {{ date.slice(0, 10) }}
+              </span>
+            </span>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
 export default {
-  
+  name: 'Card',
+  props: {
+    author: String,
+    description: String,
+    date: String,
+    title: String,
+    reviews: Array,
+    isbn: String // or any other constructor
+  }
 }
 </script>
 
@@ -32,7 +46,7 @@ export default {
   position: relative;
   color: rgb(72, 72, 72);
   height: 100%;
-
+  max-width: 10vw;
   .card-media {
     width: 100%;
     white-space: normal;
@@ -52,8 +66,7 @@ export default {
   .card-content {
     width: 100%;
     align-self:stretch;
-    .card-hint {
-      word-wrap: break-word;
+    .card-des {
       font-size: 12px;
       font-weight: 800;
       line-height: 1.3333333333333333em;
