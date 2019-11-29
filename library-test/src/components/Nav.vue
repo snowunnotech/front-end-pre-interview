@@ -1,11 +1,14 @@
 <template>
   <div class="nav">
+    <span class="nav-item nav-text" 
+    @click="goPage('Back')">Back</span>
     <span 
       v-show="showNavTitle"
       class="nav-item nav-text" >
-      {{ navbarText }}
+      {{ navbarTitle }}
       </span>
-    <span class="nav-item nav-text" >{{ navbarText }}</span>
+    <span class="nav-item nav-text" 
+    @click="goPage(navbarText)">{{ navbarText }}</span>
   </div>
 </template>
 
@@ -19,7 +22,24 @@ export default {
       navbarTitle: this.$route.meta.title
     }
   },
-watch: {
+  methods: {
+    goPage (target) {
+      switch(target) {
+        case 'Edit':
+          const id = this.$route.params.id
+          this.$router.push({ name: 'bookEdit', params: { id } })
+          break;
+        case 'New':
+          this.$router.push({ name: 'bookCreate'})
+          break;
+        case 'Back':
+          history.back()
+          break;
+      }
+
+    }
+  },
+  watch: {
     '$route.meta': {
         handler(newValue) {
           this.showNavTitle = newValue.navBarTitle
@@ -28,6 +48,12 @@ watch: {
         },
         immediate: true,
         deep: true
+    },
+    '$route.meta.title': {
+      handler(newValue) {
+          this.navbarTitle = newValue
+        },
+        immediate: true,
     }
 }
 }
@@ -46,6 +72,7 @@ watch: {
   }
 
   .nav-text {
+    cursor: pointer;
     color: #FFF;
     text-decoration: none;
   }

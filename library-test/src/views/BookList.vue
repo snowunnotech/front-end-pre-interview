@@ -39,7 +39,6 @@ export default {
     this.$store.dispatch('fetchBookLists')
   },
   methods: {
-
     getBookDetail (path) {
       const id = path.split('/').pop()
       this.$router.push({ name: 'bookDetail', params: { id } })
@@ -49,9 +48,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.book-list {
-  margin: 5vh 15vw;
-}
+
 .book-list-container {
   display: flex;
   flex-wrap: wrap;

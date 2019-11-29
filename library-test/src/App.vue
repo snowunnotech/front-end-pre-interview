@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Nav />
-    <router-view/>
+    <div class="body-container">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -21,5 +23,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.body-container {
+  margin: 2vh 8vw;
 }
 </style>>
