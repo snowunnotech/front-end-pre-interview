@@ -22,16 +22,26 @@ export default new Vuex.Store({
     },
     bookDetail: '',
     totalBooks: 0,
+    form: {
+      title: '',
+      author: '',
+      date: '',
+      isbn: '',
+      description: ''
+    },
     errMsg: ''
   },  
   getters: {
     displayBookLists: (state) => {
-      return state.bookLists.splice(0, state.pageConfig['perBooksShow'])
+      return state.bookLists.splice(0, state.pageConfig.perBooksShow)
     }
   },
   mutations: {
     FETCH_LISTS(state, lists) {
       state.bookLists = lists
+    },
+    LOAD_MORE_LISTS(state, lists) {
+      state.bookLists.concat(lists)
     },
     FETCH_TOTAL(state, total) {
       state.totalBooks = total
@@ -41,6 +51,26 @@ export default new Vuex.Store({
     },
     SET_ERROR(state, err) {
       state.errMsg = err
+    },
+    SET_TITLE(state, title) {
+      state.form.title = title
+    },
+    SET_AUTHOR(state, author) {
+      state.form.author = author
+    },
+    SET_DATE(state, date) {
+      state.form.date = date
+    },
+    SET_ISBN(state, isbn) {
+      state.form.isbn = isbn
+    },
+    SET_DESCRIPTION(state, description) {
+      state.form.description = description
+    },
+    EMPTY_FORM(state) {
+      for (let key in state.form) {
+        state.form[key] = ''
+      }
     }
   },
   actions: {
@@ -54,6 +84,10 @@ export default new Vuex.Store({
           commit('FETCH_LISTS', res['hydra:member'])
           commit('FETCH_TOTAL', res['hydra:totalItems'])
         }
+      } else {
+        const res = await getBookLists({ 'order[id]': 'asc', 'page': state.pageConfig['nowPage'] })
+        state.pageConfig['nowPage']++
+        commit('LOAD_MORE_LISTS', res['hydra:member'])
       }
     },
     async fetchBookDetail ({ commit }, id) {

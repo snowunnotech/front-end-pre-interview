@@ -47,7 +47,6 @@ function getBookDetail (id) {
         return response.json()
       })
       .then((data) => {
-        console.log(data)
         resolve(data)
         /* dispatch('fetchBookDetails') */
       })
@@ -57,8 +56,83 @@ function getBookDetail (id) {
   });
 }
 
+/**
+ * [POST]
+ * 新增書本
+ * @param {Object} option
+ *  @param {string} isbn 
+ *  @param {string} title
+ *  @param {string} description
+ *  @param {string} author
+ *  @param {date} publicationDate
+ *  @param {array[object]} reviews
+ */
+function createBook (formData) {
+  return new Promise((resolve, reject) => {
+    fetch(`${urlConfig['books']}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'error',
+      body: JSON.stringify(formData)
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if(data['@type'] === "hydra:Error") {
+        reject(data['hydra:description'])
+      } else {
+        return data
+      }
+    })
+    .catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+/**
+ * [PATCH]
+ * 更新書本資訊
+ * @param {Object} option
+ *  @param {string} isbn 
+ *  @param {string} title
+ *  @param {string} description
+ *  @param {string} author
+ *  @param {date} publicationDate
+ *  @param {array[object]} reviews
+ */
+function updateBook (formData, id) {
+  return new Promise((resolve, reject) => {
+    fetch(`${urlConfig['books']}/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/merge-patch+json'
+      },
+      redirect: 'error',
+      body: JSON.stringify(formData)
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if(data['@type'] === "hydra:Error") {
+        reject(data['hydra:description'])
+      } else {
+        return data
+      }
+    })
+    .catch((err) => {
+      reject(err)
+    })
+  })
+}
 
 export {
   getBookLists,
-  getBookDetail
+  getBookDetail,
+  createBook,
+  updateBook
 }

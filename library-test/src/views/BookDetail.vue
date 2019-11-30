@@ -1,19 +1,20 @@
 <template>
-  <div class="book-detail">
+  <div class="book-detail" v-cloak>
     <div class="book-detail-container">
       <div class="book-info">
         <span class="book-author">Author: {{ bookDetail.author }}</span>
         <span class="book-date">{{ bookDetail.publicationDate.slice(0, 10) }}</span>
       </div>
-      <div class="book-des">
+      <div class="text-left">
         <p>{{ bookDetail.description }}</p>
       </div>
+      <h4 class="text-left" v-show="bookDetail.reviews.length">Reviews</h4>
       <div class="book-review" v-if="bookDetail.reviews.length > 0">
         <div class="review-list">
           <div class="review-list-item"
             :key="review.id"
             v-for="review in bookDetail.reviews">
-            {{ review }}
+            <p class="text-left">{{ review.body }}</p>
           </div>
         </div>
       </div>
@@ -32,13 +33,9 @@ export default {
   },
   async created () {
     this.$store.dispatch('fetchBookDetail', this.$route.params.id)
-    
-  },
-  mounted() {
-    console.log('mounted', this.bookDetail)
-    this.$route.meta.title = this.bookDetail.title
   }
 }
+
 </script>
 <style lang="less" scoped>
 .book-info {
@@ -51,7 +48,11 @@ export default {
   padding: 1vh 0;
 }
 
-.book-des {
-  text-align: right;
+.text-left {
+  text-align: left;
+}
+
+.review-list-item {
+  border-bottom: 2px solid #7676763d;
 }
 </style>

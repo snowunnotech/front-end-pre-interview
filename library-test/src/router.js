@@ -42,7 +42,7 @@ export default new Router({
       meta: {
         title: '',
         navBarTitle: true,
-        navbarText: 'Edit'
+        navbarText: 'Save'
       },
       component: () => import(/* webpackChunkName: "about" */ './views/BookEdit.vue')
     }   
