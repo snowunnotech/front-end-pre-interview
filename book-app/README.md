@@ -12,3 +12,10 @@ install your docker
 sh exe-docker.sh
 
 ```
+
+
+### run the 8080port
+```
+
+open browser port on 8080
+```
