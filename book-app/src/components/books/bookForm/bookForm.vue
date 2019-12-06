@@ -67,7 +67,7 @@ export default {
         },
         submitForm() {
             if(this.$route.name == 'edit') {
-                this.bookInfo['url'] = `${this.$root.$options.api['api2']}/${this.bookInfo['id']}`
+                this.bookInfo['url'] = `${this.$root.$options.api['api1']}/${this.bookInfo['id']}`
                 let res = this.$store.dispatch('updateApi', this.bookInfo) 
                 this.$router.push('/')
                 return 
