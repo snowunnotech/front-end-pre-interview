@@ -1,0 +1,8 @@
+.addBook {
+    .fa-plus-square {
+        font-size: 3rem;
+        color: rgb(0, 119, 255);
+        margin: 15px;
+        @extend %blueLink;
+    }
+}

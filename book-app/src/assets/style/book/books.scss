@@ -1,0 +1,37 @@
+#book {
+    border: 1px solid black;
+    margin: 10px 0px;
+    padding: 10px 5px;
+    ul {
+        height: 200px;
+        overflow: overflow;
+    }
+    .fa-book {
+        font-size: 3rem;
+        margin: auto;
+        display: block;
+    }
+    .book-img {
+        padding: 20px;
+        border: 1px solid black;
+    }
+    h6 {
+        height: 40px;
+        max-height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    p {
+        height: 20px;
+        max-height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .fa-edit, .fa-trash {
+        cursor: pointer;
+        margin: 0 2px;
+    }
+    .link {
+        @extend %blueLink;
+    }
+}
