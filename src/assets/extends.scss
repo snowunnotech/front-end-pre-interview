@@ -1,0 +1,33 @@
+%color-theme {
+  background: $main-color;
+  color: $sub-color;
+}
+%clickable-item {
+  cursor: pointer;
+  transition: 0.5s;
+}
+%nav {
+  @extend %color-theme;
+  @extend %clickable-item;
+  height: $nav-height;
+  text-align: center;
+  .nav-btn {
+    height: $nav-height;
+    line-height: $nav-height;
+    padding: 0 $normal-margin;
+    font-size: 1.5em;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .nav-title {
+    line-height: $nav-height;
+    font-size: 1.8em;
+  }
+}
+%normal-view-container {
+  min-height: 99vh;
+  box-sizing: border-box;
+  border: 1px solid $main-color;
+  border-radius: 0 0 8px 8px;
+}
