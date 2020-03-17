@@ -1,0 +1,148 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scale=0">
+	<title>Library</title>
+</head>
+<body>
+	<div id="app">
+		<router-view></router-view>		
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
+	<script src="https://unpkg.com/vue-router@3.1.5/dist/vue-router.js"></script>
+	<script src="https://unpkg.com/vuex@3.1.2/dist/vuex.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+	<script>
+		let bookList = {
+			template: `<div>
+				<div class="header">
+					<span @click="createNew">New</span>
+				</div>
+				<ul>
+					<li v-for="book in books" :key="book.id">
+
+					</li>
+					<button>
+						<span>Load More</span>
+					</button>
+				</ul>
+			</div>`,
+			data(){
+				return{
+					books:[]
+				}
+			},
+			methods: {
+				createNew(){
+					this.$router.push({name: "addNew"});
+				}
+			},
+		}
+		let bookDetail = {
+			template: `<div>
+				<div class="header">
+					<span @click="backHome">Back</span>
+					<span>{{ book.name }}</span>
+					<span @click="edit">Edit</span>
+				</div>
+				<div class="content">
+					<div class="row">
+						<div class="left">
+							<span>Author:</span>
+							<span>{{ book.author }}</span>
+						</div>
+						<div class="right">
+							<span>{{ book.publicationDate }}</span>
+						</div>
+					</div>
+					<p>{{ book.description }}</p>
+				</div>
+			</div>`,
+			data(){
+				return{
+
+				}
+			},
+			methods: {
+				
+			},
+		}
+		let bookEdit = {
+			template: `<div>
+				<div class="header">
+					<span @click="backHome">Back</span>
+					<span>Add new book || book.name</span>
+					<span @click="save">Save</span>
+				</div>
+				<div class="content">
+					<input type="text" placeholder="Author">
+					<input type="text" placeholder="Created at">
+					<textarea cols="30" rows="10" style="resize: none;"></textarea>
+				</div>
+			</div>`
+		}
+		let bookAdd = {
+
+		}
+
+		let store = new Vuex.Store({
+			state: {
+				books: []
+			},
+			mutations: {
+				setContents(state, data){
+					state.books = data;
+				}
+			},
+			actions: {
+				LISTS_READ: ((context) => {
+					console.log('READ',context);
+					return axios.get('https://demo.api-platform.com/books').then((res) => {
+						console.log(res.data, 'data');
+						context.commit('setContents', res.data)
+					})
+				})
+			},
+			strict: true
+		})
+
+		let router = new VueRouter({
+			routes:[
+				{
+					path: '/',
+					name: 'list',
+					component: bookList
+				},
+				{
+					path: '/detail/:id',
+					name: 'detail',
+					component: bookDetail
+				},
+				{
+					path: '/edit/:id',
+					name: 'edit',
+					component: bookEdit
+				},
+				{
+					path: '/addNew',
+					name: 'addNew',
+					component: bookAdd
+				},
+				{
+					path: '*',
+					redirect: '/'
+				}
+			]    
+		})
+
+		new Vue({
+			el: '#app',
+			router,
+			store,
+			mounted(){
+				this.$store.dispatch('LISTS_READ')
+			}
+		})
+	</script>
+</body>
+</html>
