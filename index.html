@@ -48,12 +48,11 @@
 				},
 				watchDetail(index){
 					let target = this.contents[index];
-					this.$store.commit("passDetail", {target, index})
-
-					this.$router.push({name: "detail", params: {id: target["@id"].slice(7)}});
+					this.$router.push({name: "detail", params: {id: target["@id"]}});
 				}
 			},
 		}
+		
 		let bookDetail = {
 			template: `<div>
 				<div class="header">
@@ -81,7 +80,9 @@
 			},
 			computed: {
 				bookDetail(){
-					return this.$store.state.detail;
+					return this.$store.state.books.find((item) => {
+						return item["@id"] == this.$route.params.id;
+					});
 				}
 			},
 			methods: {
@@ -89,16 +90,12 @@
 					this.$router.back(1);
 				},
 				edit(){
-					let target = this.$store.state.books[this.$store.state.contentIndex];
+					let target = this.bookDetail;
 					this.$router.push({name: 'update', params: {id: target["@id"]}})
 				}
-			},
-			mounted(){
-				console.log(this.$store.state.books.find((item) => {
-					return item["@id"].slice(7) == this.$route.params["@id"];
-				}));
 			}
 		}
+		
 		let bookUpdate = {
 			template: `<div>
 				<div class="header">
@@ -122,13 +119,9 @@
 				}
 			},
 			computed: {
-				// bookDetail(){
-				// 	return this.$store.state.detail;
-				// }
-
 				bookDetail(){
 					return this.$store.state.books.find((item) => {
-						return item["@id"] == this.$route.params["@id"];
+						return item["@id"] == this.$route.params.id;
 					});
 				}
 			},
@@ -139,7 +132,7 @@
 				save(){
 					this.$store.dispatch('LIST_UPDATE',{
 						id: this.bookDetail["@id"],
-						// 打包物件
+						obj: this.updateObj
 					}).then(() => {
 						this.$router.push({name: "list"});
 					});
@@ -147,7 +140,7 @@
 			},
 			mounted(){
 				if(!this.bookDetail) return this.$router.replace({path: '/'})
-				console.log(this.bookDetail);
+				// console.log(this.bookDetail);
 				this.updateObj = this.bookDetail;
 			}
 		}
@@ -194,7 +187,9 @@
 						return false;
 					}
 
-					axios.post('https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books',this.bookObj).then(res => {
+					axios.post('https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books',{
+						["hydra:member"]: this.bookObj
+					}).then(res => {
 						this.$store.commit("addContent", res.data)
 					}).then(() => this.$router.push({name: "list"}))
 				}
@@ -203,9 +198,7 @@
 
 		let store = new Vuex.Store({
 			state: {
-				books: [],
-				detail: [],
-				contentIndex: 0
+				books: []
 			},
 			mutations: {
 				setContents(state, data){
@@ -214,14 +207,8 @@
 				addContent(state, data){
 					state.books.push(data);
 				},
-				
-				// updateContent(state, data){
-				//     state.books = data;
-				// },
-
-				passDetail(state, data){
-					state.detail = data.target;
-					state.contentIndex = data.index;
+				updateContent(state, {item, obj}){
+				    item.books = obj;
 				}
 			},
 			actions: {
@@ -231,14 +218,14 @@
 						context.commit('setContents', res.data["hydra:member"])
 					})
 				}),
-				LIST_UPDATE: ((context, {id, input}) => {
-					console.log('UPDATE',context, id, input);
+				LIST_UPDATE: ((context, {id, obj}) => {
+					console.log('UPDATE',context, id, obj);
 					let item = context.state.books.find((item) => {
 						return item["@id"] == ["@id"]
 					});
 					if(!item) return false
-					return axios.patch('https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books' + item.id, {content: input}).then((response) => {
-						context.commit('updateContent', {item, input})
+					return axios.patch('https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books' + item["@id"], obj).then((res) => {
+						context.commit('updateContent', {item, obj})
 					})
 				})
 			},
