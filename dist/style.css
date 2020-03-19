@@ -1,0 +1,146 @@
+@charset "UTF-8";
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  font-size: 16px;
+  color: #888888;
+  text-decoration: none;
+  list-style: none; }
+
+body {
+  width: 100%;
+  background: #eeeeee;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-family: 微軟正黑體,微軟雅黑體,Roboto,Arial; }
+
+.fz-12 {
+  font-size: 12px; }
+
+.fz-14 {
+  font-size: 14px; }
+
+.fz-18 {
+  font-size: 18px; }
+
+.fw-bold {
+  font-weight: bold; }
+
+.text-white {
+  color: #ffffff; }
+
+.text-black {
+  color: #000000; }
+
+.absolute {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%); }
+  .absolute.absolute-left {
+    left: 16px; }
+  .absolute.absolute-center {
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); }
+  .absolute.absolute-right {
+    right: 16px; }
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 56px;
+  background: #FFC35F;
+  z-index: 10; }
+
+.content {
+  margin-top: 56px;
+  padding: 18px 16px; }
+
+button {
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  border-radius: 4px;
+  border: 0;
+  background: #FFC35F; }
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 0;
+  font-size: 14px;
+  color: #000000; }
+  input::-webkit-input-placeholder {
+    color: #888888; }
+  input::-moz-placeholder {
+    color: #888888; }
+  input:-ms-input-placeholder {
+    color: #888888; }
+  input::-ms-input-placeholder {
+    color: #888888; }
+  input::placeholder {
+    color: #888888; }
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  font-size: 14px;
+  color: #000000;
+  resize: none; }
+
+.bookCard {
+  position: relative;
+  display: inline-block;
+  width: -webkit-calc((100% - 5%) / 2);
+  width: calc((100% - 5%) / 2);
+  height: 23%;
+  padding: 18px 12px;
+  margin: 0 5% 5% 0;
+  background: #ffffff;
+  vertical-align: top;
+  overflow-wrap: break-word;
+  overflow: hidden; }
+  .bookCard:nth-child(even) {
+    margin: 0; }
+
+.bookCard_date {
+  position: absolute;
+  bottom: 18px;
+  left: 12px; }
+
+.bookCard_description {
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  overflow: hidden;
+  overflow-wrap: break-word; }
+
+.row {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  margin-bottom: 12px;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
