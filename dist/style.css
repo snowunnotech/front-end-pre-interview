@@ -121,10 +121,11 @@ textarea {
   left: 12px; }
 
 .bookCard_description {
+  overflow: hidden;
+  overflow-wrap: break-word;
   -o-text-overflow: ellipsis;
      text-overflow: ellipsis;
-  overflow: hidden;
-  overflow-wrap: break-word; }
+  white-space: nowrap; }
 
 .row {
   display: -webkit-inline-box;
@@ -144,3 +145,10 @@ textarea {
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap; }
+
+.bookTitle {
+  width: 180px;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  white-space: nowrap; }
