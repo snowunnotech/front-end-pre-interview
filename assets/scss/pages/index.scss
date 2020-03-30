@@ -1,0 +1,11 @@
+.p-index {
+  &-card {
+    > .card-body {
+      display: flex;
+      flex-direction: column;
+    }
+    &__description {
+      flex-grow: 1;
+    }
+  }
+}
