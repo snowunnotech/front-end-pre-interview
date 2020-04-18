@@ -47,14 +47,40 @@ $(document).ready(function(){
                     alert('Please fullfill the blank!');
                 } else {
                     this.books.push(newBook);
-                alert('Your book is just created!');
+                    var url = `https://demo.api-platform.com/books`;
+                    var data = {
+                        "isbn": "string",
+                        "title": `${newBook['title']}`,
+                        "description": `${newBook['description']}`,
+                        "author": `${newBook['author']}`,
+                        "publicationDate": `${newBook['publicationDate']}`,
+                        "cover": "string",
+                        "reviews": [
+                            {
+                            "body": "string",
+                            "rating": 0,
+                            "author": "string",
+                            "publicationDate": "2020-04-17T14:14:54.084Z"
+                            }
+                        ]
+                    };
+                    fetch(url, {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: new Headers({
+                        'Content-Type': 'application/json'
+                        })
+                    }).then(res => res.json())
+                    .catch(error => console.error('Error:', error))
+                    .then(response => console.log('Success:', response));
+                    alert('Your book is just created!');
                 }
             },
             editBook(){
                 this.status = 'editing';
             },
             saveEdited(){
-                var url = `https://demo.api-platform.com/books/${this.bookId}`;
+                var url = `https://demo.api-platform.com/books/books/${this.bookId}`;
                 var editedAuthor = $('.editAuthor').val();
                 var editedPublicationDate = $('.editPublicationDate').val();
                 var editedDescription = $('.editDescription').val();
