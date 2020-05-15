@@ -11,3 +11,32 @@
 1. 使用 [Vuex](https://github.com/vuejs/vuex)。
 2. 增加表單校驗。
 
+# front-end-pre-interview
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
