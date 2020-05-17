@@ -1,0 +1,295 @@
+<html lang="zh-TW">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scale=0">
+	<link rel="stylesheet" href="dist/style.css">
+	<title>Library</title>
+</head>
+<body>
+	<div id="app">
+		<router-view></router-view>		
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
+	<script src="https://unpkg.com/vue-router@3.1.5/dist/vue-router.js"></script>
+	<script src="https://unpkg.com/vuex@3.1.2/dist/vuex.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+	<script crossorigin="anonymous">
+		let bookList = {
+			template: `<div>
+				<div class="header">
+					<span class="absolute absolute-right text-white" @click="createNew">New</span>
+				</div>
+				<div class="content">
+					<ul>
+						<li v-for="(book, index) in contents" :key="book.id" @click="watchDetail(index)" class="bookCard">
+							<p class="fz-12" style="margin-bottom: 12px; color: #222222;">{{ book.title }}</p>
+							<p class="fz-12 bookCard_description">{{ book.description }}</p>
+							<em class="fz-12 bookCard_date">{{ book.publicationDate }}</em>
+						</li>
+					</ul>
+					<div v-if="contents.length > bookToShow">
+						<button @click="bookToShow += 6">
+							<span class="text-white">Load More</span>
+						</button>
+					</div>
+				</div>
+			</div>`,
+			data(){
+				return{
+					bookToShow: 6,
+					booksTotal: 0,
+				}
+			},
+			computed: {
+				contents(){
+					return this.$store.state.books;
+				}
+			},
+			methods: {
+				createNew(){
+					this.$router.push({name: "addNew"});
+				},
+				watchDetail(index){
+					let target = this.contents[index];
+					this.$router.push({name: "detail", params: {id: target["@id"]}});
+				}
+			},
+			mounted(){
+				this.booksTotal = this.contents.length
+			}
+		}
+		
+		let bookDetail = {
+			template: `<div>
+				<div class="header">
+					<span class="absolute absolute-left text-white" @click="backHome">Back</span>
+					<span class="absolute absolute-center text-white fz-18 bookTitle">{{ bookDetail.title }}</span>
+					<span class="absolute absolute-right text-white" @click="edit">Edit</span>
+				</div>
+				<div class="content">
+					<div class="row">
+						<div class="left">
+							<span class="fz-12">Author:</span>
+							<span class="fz-12">{{ bookDetail.author }}</span>
+						</div>
+						<div class="right">
+							<span class="fz-12">{{ bookDetail.publicationDate }}</span>
+						</div>
+					</div>
+					<p class="fw-bold text-black">{{ bookDetail.description }}</p>
+				</div>
+			</div>`,
+			data(){
+				return{
+
+				}
+			},
+			computed: {
+				bookDetail(){
+					return this.$store.state.books.find((item) => {
+						return item["@id"] == this.$route.params.id;
+					});
+				}
+			},
+			methods: {
+				backHome(){
+					this.$router.back(1);
+				},
+				edit(){
+					let target = this.bookDetail;
+					this.$router.push({name: 'update', params: {id: target["@id"]}})
+				}
+			}
+		}
+		
+		let bookUpdate = {
+			template: `<div>
+				<div class="header">
+					<span class="absolute absolute-left text-white" @click="backHome">Back</span>
+					<span class="absolute absolute-center fz-18 text-white bookTitle">{{ bookDetail.title }}</span>
+					<span class="absolute absolute-right text-white" @click="save">Save</span>
+				</div>
+				<div class="content">
+					<input type="text" placeholder="Author" v-model.lazy="updateObj.author">
+					<input type="text" placeholder="Created at" v-model.lazy="updateObj.title">
+					<textarea cols="30" rows="10" v-model.lazy="updateObj.description"></textarea>
+				</div>
+			</div>`,
+			data(){
+				return{
+					updateObj:{
+						author: '',
+						title: '',
+						description: ''
+					}
+				}
+			},
+			computed: {
+				bookDetail(){
+					return this.$store.state.books.find((item) => {
+						return item["@id"] == this.$route.params.id;
+					});
+				}
+			},
+			methods:{
+				backHome(){
+					this.$router.back(1);
+				},
+				save(){
+					// valid
+					if(!Object.values(updateObj).map(val => typeof(val)).every(type => type == "string")){
+						alert("資料類型輸入錯誤");
+						return false;
+					}
+
+					this.$store.dispatch('LIST_UPDATE',{
+						id: this.bookDetail["@id"],
+						author: this.updateObj.author,
+						title: this.updateObj.title,
+						description: this.updateObj.description,
+					}).then(() => {
+						this.$router.push({name: "list"});
+					});
+				}
+			},
+			mounted(){
+				if(!this.bookDetail) return this.$router.replace({path: '/'})
+				this.updateObj = this.bookDetail;
+			}
+		}
+		let bookAdd = {
+			template: `<div>
+				<div class="header">
+					<span class="absolute absolute-left text-white" @click="backHome">Back</span>
+					<span class="absolute absolute-center fz-18 text-white">Add new book</span>
+					<span class="absolute absolute-right text-white" @click="save">Save</span>
+				</div>
+				<div class="content">
+					<input type="text" placeholder="Author" v-model.lazy="bookObj.author">
+					<input type="text" placeholder="Created at" v-model.lazy="bookObj.title">
+					<textarea cols="30" rows="10" v-model.lazy="bookObj.description"></textarea>
+				</div>
+			</div>`,
+			data(){
+				return{
+					bookObj:{
+						isbn: "",
+						title: "",
+						description: "",
+						author: "",
+						publicationDate: "2020-03-18T05:44:56.020Z",
+						cover: "",
+						reviews: [
+							{
+								body: "",
+								rating: 0,
+								author: "",
+								publicationDate: ""
+							}
+						]
+					}
+				}
+			},
+			methods:{
+				backHome(){
+					this.$router.back(1);
+				},
+				save(){
+					if (!this.bookObj.author || !this.bookObj.title || !this.bookObj.description){
+						alert("資料未填寫正確");
+						if([this.bookObj.author, this.bookObj.title, this.bookObj.description].map(val => {
+							typeof(val)}).every(type => type == "string")){
+								alert("資料類型輸入錯誤");
+								return false;
+						}
+						return false;
+					}
+
+					axios.post('https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books',{
+						["hydra:member"]: this.bookObj
+					}).then(res => {
+						this.$store.commit("addContent", res.data)
+					}).then(() => this.$router.push({name: "list"}))
+				}
+			}
+		}
+
+		let store = new Vuex.Store({
+			state: {
+				books: []
+			},
+			mutations: {
+				setContents(state, data){
+					state.books = data;
+				},
+				addContent(state, data){
+					state.books.push(data);
+				},
+				updateContent(state, {item, author, title, description}){
+				    item.author = author;
+				    item.title = title;
+				    item.description = description;
+				}
+			},
+			actions: {
+				LISTS_READ: (context => {
+					return axios.get('https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books').then(res => {
+						console.log(res.data["hydra:member"]);
+						context.commit('setContents', res.data["hydra:member"])
+					})
+				}),
+				LIST_UPDATE: ((context, {id, author, title, description}) => {
+					let item = context.state.books.find((item) => {
+						return item["@id"] == ["@id"]
+					});
+					if(!item) return false
+					return axios.patch('https://cors-anywhere.herokuapp.com/https://demo.api-platform.com/books' + item["@id"], {
+						author, title, description
+					}).then((res) => {
+						context.commit('updateContent', {item, author, title, description})
+					}).catch(e => console.log(e))
+				})
+			},
+			// strict: true
+		})
+
+		let router = new VueRouter({
+			routes:[
+				{
+					path: '/',
+					name: 'list',
+					component: bookList
+				},
+				{
+					path: '/detail/:id',
+					name: 'detail',
+					component: bookDetail
+				},
+				{
+					path: '/update/:id',
+					name: 'update',
+					component: bookUpdate
+				},
+				{
+					path: '/addNew',
+					name: 'addNew',
+					component: bookAdd
+				},
+				{
+					path: '*',
+					redirect: '/'
+				}
+			]    
+		})
+
+		new Vue({
+			el: '#app',
+			router,
+			store,
+			mounted(){
+				this.$store.dispatch('LISTS_READ');
+			}
+		})
+	</script>
+</body>
+</html>

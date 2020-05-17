@@ -1,0 +1,109 @@
+$orange: #FFC35F
+$gray: #888888
+
+*
+	box-sizing: border-box
+	margin: 0
+	padding: 0
+	outline: 0
+	font-size: 16px
+	color: $gray
+	text-decoration: none
+	list-style: none
+body
+	width: 100%
+	background: #eeeeee
+	user-select: none
+	font-family: 微軟正黑體,微軟雅黑體,Roboto,Arial
+
+.fz-12
+	font-size: 12px
+.fz-14
+	font-size: 14px
+.fz-18
+	font-size: 18px
+.fw-bold
+	font-weight: bold
+.text-white
+	color: #ffffff
+.text-black
+	color: #000000
+.absolute
+	position: absolute
+	top: 50%
+	transform: translateY(-50%)
+	&.absolute-left
+		left: 16px
+	&.absolute-center
+		left: 50%
+		transform: translate(-50%,-50%)
+	&.absolute-right
+		right: 16px
+.header
+	position: fixed
+	top: 0
+	left: 0
+	width: 100%
+	height: 56px
+	background: $orange
+	z-index: 10
+.content
+	margin-top: 56px
+	padding: 18px 16px
+button
+	width: 100%
+	height: 48px
+	line-height: 48px
+	border-radius: 4px
+	border: 0
+	background: $orange
+input
+	width: 100%
+	padding: 12px
+	margin-bottom: 12px
+	border: 0
+	font-size: 14px
+	color: #000000
+	&::placeholder
+		color: $gray
+textarea
+	width: 100%
+	padding: 12px
+	border: 0
+	font-size: 14px
+	color: #000000
+	resize: none
+.bookCard
+	position: relative
+	display: inline-block
+	width: calc((100% - 5%) / 2)
+	height: 23%
+	padding: 18px 12px
+	margin: 0 5% 5% 0
+	background: #ffffff
+	vertical-align: top
+	overflow-wrap: break-word
+	overflow: hidden
+	&:nth-child(even)
+		margin: 0
+.bookCard_date
+	position: absolute
+	bottom: 18px
+	left: 12px
+.bookCard_description
+	overflow: hidden
+	overflow-wrap: break-word
+	text-overflow: ellipsis
+	white-space: nowrap
+.row
+	display: inline-flex
+	align-items: center
+	justify-content: space-between
+	width: 100%
+	margin-bottom: 12px
+	flex-wrap: wrap
+.bookTitle
+	width: 180px
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
