@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+}
+.container {
+    margin: 0 auto;
+    width: 375px;
+    min-height: 100%;
+    border: 1px solid #ddd;
+}
+.navigation {
+    height: 50px;
+    background-color: yellow;
+}
+.navigation div {
+    margin: 0 20px;
+    line-height: 3;
+    display: inline-block;
+    cursor: pointer;
+}
+.nav-title {
+    padding-left: 28px;
+    cursor: not-allowed;
+}
+.edit, .new, .save {
+    float: right;
+}
+.book-wrapper {
+    margin: 10px;
+    padding: 10px;
+    width: 166px;
+    height: 166px;
+    float: left;
+    background-color: #fff;
+    border: 1px solid #000;
+    font-size: 12px;
+    cursor: pointer;
+}
+.book-id-hide {
+    visibility: hidden;
+}
+.book-description-hide {
+    display: none;
+}
+.clearfix {
+    content: '';
+    display: table;
+    clear: both;
+}
+.load-more {
+    margin: 20px auto 100px;
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    line-height: 2.6;
+    background-color: yellow;
+    cursor: pointer;
+}
+.description {
+    padding: 10px;
+}
+.detail {
+    margin-top: 20px;
+    width: 100%;
+}
+.description-publicationDate {
+    float: right;
+}
+.book-description {
+    margin-top: 20px;
+}
+.showAddNewBook input {
+    margin: 5px auto;
+    width: 360px;
+}
+.addDescription, .editDescription {
+    margin: 5px auto;
+    width: 360px;
+    height: 200px;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
+    <script src="./main.js"></script>
+    <title>library</title>
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="navigation">
+            <div class="back" v-if="status !== 'allBooks'" @click="goBackToAllBooks">Back</div>
+            <div class="nav-title" v-if="status === 'description'">{{navTitle}}</div>
+            <div class="nav-title" v-if="status === 'addNewBook'">Add a new book</div>
+            <div class="new" v-if="status === 'allBooks'" @click="showAddNewBook">New</div>
+            <div class="save" v-if="status === 'addNewBook'" @click="saveAdded">Save</div>
+            <div class="edit" v-if="status === 'description'" @click="editBook">Edit</div>
+            <div class="save" v-if="status === 'editing'" @click="saveEdited">Save</div>
+        </div>
+        <div class="all-books" v-if="status === 'allBooks'">
+            <div class="clearfix">
+                <div v-for="book in books" class="book-wrapper" @click="showDescription">
+                    <div class="title">{{book['title']}}</div>
+                    <div class="bookId book-id-hide">{{book['@id']}}</div>
+                    <br>
+                    <span class="author">by {{book['author']}}</span>
+                    <span class="publicationDate">{{book['publicationDate'].substring(0,10)}}</span>
+                    <div class="book-description-hide">Description: {{book['description']}}</div>
+                </div>
+            </div>
+            <div class="load-more" @click="loadMore">Load More</div>
+        </div>
+        <div class="description" v-if="status === 'description' || status === 'editing'">
+            <div class="detail clearfix">
+                <span class="author" v-if="status === 'description'">{{author}}</span>
+                <input type="text" class="editAuthor" :placeholder="author" v-if="status === 'editing'">
+                <span class="description-publicationDate" v-if="status === 'description'">{{publicationDate}}</span>
+                <input type="text" class="editPublicationDate" :placeholder="publicationDate" v-if="status === 'editing'">
+            </div>
+            <div class="book-description" v-if="status === 'description'">{{description}}</div>
+            <textarea class="editDescription" :placeholder="description" id="" cols="30" rows="10" v-if="status === 'editing'"></textarea>
+        </div>
+        <div class="showAddNewBook" v-if="status === 'addNewBook'">
+            <input type="text" class="addTitle" placeholder="Title">
+            <input type="text" class="addAuthor" placeholder="Author">
+            <input type="text" class="addCreatedAt" placeholder="Created at">
+            <textarea class="addDescription" id="" cols="30" rows="10" placeholder="description"></textarea>
+        </div>
+    </div>
+</body>
+</html>
