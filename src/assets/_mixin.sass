@@ -1,0 +1,7 @@
+@mixin size($w, $h)
+    width: $w
+    height: $h
+
+@mixin iphone
+    @media (max-width: 415px)
+        @content
